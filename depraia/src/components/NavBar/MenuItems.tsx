@@ -15,13 +15,8 @@ export const MenuItems = [
     cName: "navbar__links"
   },
   {
-    title: "Home",
-    url: "#",
-    cName: "navbar__links"
-  },
-  {
     title: "Graficos",
     url: "#",
-    cName: "navbar__links--highlight"
+    cName: "navbar__links"
   }
 ];
