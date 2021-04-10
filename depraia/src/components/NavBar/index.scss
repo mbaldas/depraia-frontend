@@ -1,0 +1,41 @@
+.navbar {
+  background-image: linear-gradient(
+    109.6deg,
+    rgba(62, 161, 219, 1) 11.2%,
+    rgba(93, 52, 236, 1) 100.2%
+  );
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  .navbar__logo {
+    color: #ffffff;
+    justify-self: start;
+    margin-left: 20px;
+    cursor: pointer;
+  }
+  .navbar__menu {
+    display: grid;
+    grid-template-columns: repeat(5, auto);
+    grid-gap: 10px;
+    list-style: none;
+    text-align: center;
+    width: 70vw;
+    justify-content: end;
+    margin-right: 2rem;
+    .navbar__links {
+      color: #ffffff;
+      text-decoration: none;
+      padding: 0.5rem 1rem;
+    }
+    .navbar__links:hover {
+      background-color: #6d76f7;
+      border-radius: 4px;
+      transition: all 0.2s ease-out;
+    }
+    .navbar__links--highlight {
+      display: none;
+    }
+  }
+}
