@@ -1,10 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUmbrellaBeach,
-  faTimes,
-  faBars
-} from "@fortawesome/free-solid-svg-icons";
-import React, { useState } from "react";
+import { faUmbrellaBeach } from "@fortawesome/free-solid-svg-icons";
+import React from "react";
 import { Link } from "react-router-dom";
 
 import "./index.scss";

@@ -2,8 +2,8 @@ import React from "react";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
 
-import NavBar from "../components/NavBar/NavBar";
-import beach from "../assets/wp6191831.jpg";
+import NavBar from "../../components/NavBar/NavBar";
+import beach from "../../assets/wp6191831.jpg";
 
 import "./index.scss";
 
