@@ -3,11 +3,10 @@ import img from "../../assets/cadastro.svg";
 import TextField from "@material-ui/core/TextField";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button, Select, MenuItem, InputLabel } from "@material-ui/core";
-import { useState } from "react";
-import { Formik, Form, useFormik } from "formik";
-import UserService from "../../service/UserService";
+import { useFormik } from "formik";
 import User from "../../model/User";
 import Endereco from "../../model/Endereco";
+import { useCommonStore } from "../../hooks";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,12 +20,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function SignUp() {
-  const classes = useStyles();
-
-  const handleSubmit = (values: any) => {
-    console.log(values);
-  };
-
+  const store = useCommonStore();
   const formik = useFormik({
     initialValues: {
       nome: "",
@@ -54,7 +48,7 @@ export default function SignUp() {
         values.tipo,
         endereco
       );
-      UserService.createUser(user);
+      store.user.actions.AddUser(user);
     }
   });
 
@@ -181,4 +175,7 @@ export default function SignUp() {
       </div>
     </div>
   );
+}
+function useStore() {
+  throw new Error("Function not implemented.");
 }
