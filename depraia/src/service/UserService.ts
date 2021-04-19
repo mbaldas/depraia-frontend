@@ -1,6 +1,3 @@
-/* aqui é a camada de serviço para podermos fazer a chamada get para o json
-e trazer os dados para montarmos a lista*/
-
 import axios from "axios";
 import User from "../model/User";
 

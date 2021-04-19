@@ -3,8 +3,6 @@ import img from "../../assets/porta.svg";
 import TextField from "@material-ui/core/TextField";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
-import SignUp from "../SignUp/SignUp";
-import React from "react";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>

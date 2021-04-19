@@ -1,23 +1,11 @@
 import "../SignIn/index.scss";
 import img from "../../assets/cadastro.svg";
 import TextField from "@material-ui/core/TextField";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button, Select, MenuItem, InputLabel } from "@material-ui/core";
 import { useFormik } from "formik";
 import User from "../../model/User";
 import Endereco from "../../model/Endereco";
 import { useCommonStore } from "../../hooks";
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "& .MuiTextField-root": {
-        margin: theme.spacing(1),
-        width: "25ch"
-      }
-    }
-  })
-);
 
 export default function SignUp() {
   const store = useCommonStore();
@@ -175,7 +163,4 @@ export default function SignUp() {
       </div>
     </div>
   );
-}
-function useStore() {
-  throw new Error("Function not implemented.");
 }
