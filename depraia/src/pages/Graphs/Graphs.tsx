@@ -21,7 +21,9 @@ export default function Graphs() {
   const series = [
     {
       name: "Pessoas na praia",
-      data: [1, 3, 4, 2, 8, 12, 12, 1]
+      data: selectedPraia?.agendas.map((p) => {
+        return p.usuarios.length;
+      })
     }
   ];
 
@@ -31,15 +33,9 @@ export default function Graphs() {
     },
     xaxis: {
       categories: [
-        "20/03",
-        "20/03",
-        "20/03",
-        "20/03",
-        "20/03",
-        "20/03",
-        "20/03",
-        "20/03",
-        "20/03"
+        selectedPraia?.agendas.map((p) => {
+          return p.data;
+        })
       ]
     }
   };
@@ -61,7 +57,9 @@ export default function Graphs() {
           />
         )}
       />
-      <Chart options={options} series={series} type="bar" width="500" />
+      {selectedPraia && (
+        <Chart options={options} series={series} type="bar" width="500" />
+      )}
     </>
   );
 }
