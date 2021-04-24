@@ -7,6 +7,7 @@ import MenuAdmin from "./pages/Admin/MenuAdmin";
 import CadastroPraia from "./pages/Admin/CadastroPraia";
 import CadastroQuiosque from "./pages/Admin/CadastroQuiosque";
 import MainPageAdmin from "./pages/Admin/MainPageAdmin";
+import Graphs from "./pages/Graphs/Graphs";
 
 export default () => {
   return (
@@ -33,6 +34,9 @@ export default () => {
           </Route>
           <Route exact path="/admin">
             <MainPageAdmin />
+          </Route>
+          <Route exact path="/graphs">
+            <Graphs />
           </Route>
         </Switch>
       </Router>

@@ -44,15 +44,8 @@ const MainPage: React.FC = () => {
 
   const formik = useFormik({
     initialValues: {
-      nome: "",
-      email: "",
-      cpf: "",
-      rua: "",
-      bairro: "",
-      cidade: "",
-      cep: "",
-      senha: "",
-      tipo: 0
+      data: "",
+      praia: ""
     },
     onSubmit: (values) => {
       console.log(values);
@@ -74,13 +67,15 @@ const MainPage: React.FC = () => {
             <form onSubmit={formik.handleSubmit}>
               <Grid item style={{ padding: 20 }}>
                 <Autocomplete
-                  id="combo-box-demo"
+                  id="praia"
+                  onChange={(e, value) => formik.setFieldValue("praia", value)}
                   options={praias}
                   getOptionLabel={(option: any) => option.nome}
                   style={{ width: 300 }}
                   renderInput={(params: any) => (
                     <TextField
                       {...params}
+                      name="praia"
                       label="Selecione sua Praia"
                       variant="outlined"
                     />
@@ -89,7 +84,10 @@ const MainPage: React.FC = () => {
               </Grid>
               <Grid item style={{ padding: 20 }}>
                 <TextField
-                  id="date"
+                  value={formik.values.data}
+                  onChange={formik.handleChange}
+                  id="data"
+                  name="data"
                   label="Dia de ir a praia"
                   type="date"
                   defaultValue="2021-05-16"

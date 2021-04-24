@@ -1,9 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 .mainpage {
-  background-color: #fff;
   height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  background-color: #fff;
+  background-image: url("../../assets/praia.jpg");
+  background-size: auto auto;
+  background-repeat: no-repeat;
 }
