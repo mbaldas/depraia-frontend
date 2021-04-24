@@ -27,6 +27,7 @@ export default ({ children }: React.Props<any>) => {
         return;
       }
       try {
+        console.log(user);
         const newUser = await UserService.createUser(user);
         setUser(newUser);
       } catch (error) {
