@@ -131,6 +131,7 @@ const MainPage: React.FC = () => {
                   label="Que dia vamos a praia?"
                   format="DD/MM"
                   autoOk={true}
+                  disabled={selectedPraia === (null || undefined)}
                   value={selectedDate}
                   onChange={handleDateChange}
                   KeyboardButtonProps={{
