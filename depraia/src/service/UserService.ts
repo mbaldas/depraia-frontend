@@ -3,19 +3,8 @@ import User from "../model/User";
 
 export default {
   async createUser(user: User) {
-
-    const decider = () => {
-      switch(user.tipoUsuario) {
-        case 0:
-          return "banhista"
-        case 1:
-          return "esportista"
-        case 2:
-          return "ambulante"
-      }
-    }
-    const requestTo = decider();
-    const response = await axios.post(`https://depraia-api.herokuapp.com/${requestTo}`, { user })
+    console.log(user);
+    const response = await axios.post(`https://depraia-api.herokuapp.com/usuario`, { user })
     return response.data;
   },
 };

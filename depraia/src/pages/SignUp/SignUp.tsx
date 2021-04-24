@@ -136,9 +136,9 @@ export default function SignUp() {
                 id="tipo"
                 name="tipo"
               >
-                <MenuItem value={0}>Banhista</MenuItem>
-                <MenuItem value={1}>Esportista</MenuItem>
-                <MenuItem value={2}>Ambulante</MenuItem>
+                <MenuItem value={1}>Banhista</MenuItem>
+                <MenuItem value={2}>Esportista</MenuItem>
+                <MenuItem value={3}>Ambulante</MenuItem>
               </Select>
             </div>
             <Button
