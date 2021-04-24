@@ -5,10 +5,35 @@ import PraiaService from "../../service/PraiaService";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField } from "@material-ui/core";
 import { Praia } from "../../model/Praia";
+import Utils from "../../utils/utils";
 
 export default function Graphs() {
   const [praias, setPraias] = useState<Praia[]>([]);
   const [selectedPraia, setSelectedPraia] = useState<Praia | null>();
+
+  const graphOptions = {
+    series: [
+      {
+        name: "Pessoas",
+        data: selectedPraia?.agendas.map((p) => {
+          return p.usuarios.length;
+        })
+      }
+    ],
+    options: {
+      chart: {
+        id: "praia"
+      },
+      xaxis: {
+        categories: [
+          selectedPraia?.agendas.map((p) => {
+            const date = Utils.convertDateToDayAndMonth(p.data);
+            return date;
+          })
+        ]
+      }
+    }
+  };
 
   useEffect(() => {
     async function fetchPraias() {
@@ -17,28 +42,6 @@ export default function Graphs() {
     }
     fetchPraias();
   }, []);
-
-  const series = [
-    {
-      name: "Pessoas na praia",
-      data: selectedPraia?.agendas.map((p) => {
-        return p.usuarios.length;
-      })
-    }
-  ];
-
-  const options = {
-    chart: {
-      id: "praia"
-    },
-    xaxis: {
-      categories: [
-        selectedPraia?.agendas.map((p) => {
-          return p.data;
-        })
-      ]
-    }
-  };
 
   return (
     <>
@@ -58,7 +61,12 @@ export default function Graphs() {
         )}
       />
       {selectedPraia && (
-        <Chart options={options} series={series} type="bar" width="500" />
+        <Chart
+          options={graphOptions.options}
+          series={graphOptions.series}
+          type="bar"
+          width="500"
+        />
       )}
     </>
   );
