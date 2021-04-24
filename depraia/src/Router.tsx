@@ -8,38 +8,53 @@ import CadastroPraia from "./pages/Admin/CadastroPraia";
 import CadastroQuiosque from "./pages/Admin/CadastroQuiosque";
 import MainPageAdmin from "./pages/Admin/MainPageAdmin";
 import Graphs from "./pages/Graphs/Graphs";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import amber from "@material-ui/core/colors/amber";
+import orange from "@material-ui/core/colors/orange";
 
 export default () => {
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: amber[500]
+      },
+      secondary: {
+        main: orange[500]
+      }
+    }
+  });
   return (
     <>
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <MainPage />
-          </Route>
-          <Route exact path="/signin">
-            <SignIn />
-          </Route>
-          <Route exact path="/signup">
-            <SignUp />
-          </Route>
-          <Route exact path="/menu-admin">
-            <MenuAdmin />
-          </Route>
-          <Route exact path="/cadastro-praia">
-            <CadastroPraia />
-          </Route>
-          <Route exact path="/cadastro-quiosque">
-            <CadastroQuiosque />
-          </Route>
-          <Route exact path="/admin">
-            <MainPageAdmin />
-          </Route>
-          <Route exact path="/graphs">
-            <Graphs />
-          </Route>
-        </Switch>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <MainPage />
+            </Route>
+            <Route exact path="/signin">
+              <SignIn />
+            </Route>
+            <Route exact path="/signup">
+              <SignUp />
+            </Route>
+            <Route exact path="/menu-admin">
+              <MenuAdmin />
+            </Route>
+            <Route exact path="/cadastro-praia">
+              <CadastroPraia />
+            </Route>
+            <Route exact path="/cadastro-quiosque">
+              <CadastroQuiosque />
+            </Route>
+            <Route exact path="/admin">
+              <MainPageAdmin />
+            </Route>
+            <Route exact path="/graphs">
+              <Graphs />
+            </Route>
+          </Switch>
+        </Router>
+      </ThemeProvider>
     </>
   );
 };

@@ -3,10 +3,10 @@ import { useFormik } from "formik";
 import Grid from "@material-ui/core/Grid";
 
 import NavBar from "../../components/NavBar/NavBar";
-import "./index.scss";
 import { Button, makeStyles, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import PraiaService from "../../service/PraiaService";
+import bg from "../../assets/praia.jpg";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,13 +20,27 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     border: "none",
-    backgroundColor: "#000000",
+    backgroundColor: "#fe9752",
     "&:hover": {
-      backgroundColor: "#404040"
+      backgroundColor: "#fe9752"
     }
   },
   text: {
     color: "#e8e8e8"
+  },
+  form: {
+    backgroundColor: "#fff",
+    boxShadow: "5px 5px 10px -1px rgba(0,0,0,0.63)",
+    padding: "40px"
+  },
+  mainpage: {
+    height: "90vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "#fff",
+    backgroundImage: `url(${bg})`,
+    backgroundRepeat: "no-repeat"
   }
 }));
 
@@ -54,7 +68,7 @@ const MainPage: React.FC = () => {
   return (
     <>
       <NavBar />
-      <section className="mainpage">
+      <section className={classes.mainpage}>
         <Grid container spacing={3}>
           <Grid
             item
@@ -64,7 +78,7 @@ const MainPage: React.FC = () => {
             justify="space-around"
             alignItems="center"
           >
-            <form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit} className={classes.form}>
               <Grid item style={{ padding: 20 }}>
                 <Autocomplete
                   id="praia"

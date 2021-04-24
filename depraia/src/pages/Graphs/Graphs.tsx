@@ -5,6 +5,7 @@ import PraiaService from "../../service/PraiaService";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { TextField } from "@material-ui/core";
 import { Praia } from "../../model/Praia";
+import NavBar from "../../components/NavBar/NavBar";
 import Utils from "../../utils/utils";
 
 export default function Graphs() {
@@ -45,6 +46,7 @@ export default function Graphs() {
 
   return (
     <>
+      <NavBar />
       <Autocomplete
         id="praia"
         onChange={(e, value) => setSelectedPraia(value)}
