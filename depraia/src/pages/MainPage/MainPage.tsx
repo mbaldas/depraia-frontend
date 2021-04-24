@@ -56,7 +56,7 @@ const MainPage: React.FC = () => {
   const classes = useStyles();
   const [praias, setPraias] = useState<Praia[]>([]);
   const [selectedPraia, setSelectedPraia] = useState<Praia | null>();
-  const [selectedDate, setSelectedDate] = React.useState(new Date());
+  const [selectedDate, setSelectedDate] = React.useState(null);
 
   const handleDateChange = (date: any) => {
     setSelectedDate(date);
@@ -75,11 +75,9 @@ const MainPage: React.FC = () => {
   const disableDates = (day: MaterialUiPickersDate) => {
     let retorno;
     const allowedDates = selectedPraia?.agendas.map((a) => {
-      return moment(a.data).startOf("day").toDate();
+      return moment(a.data).startOf("day").valueOf();
     });
-    console.log(allowedDates);
-    console.log(day?.toDate());
-    allowedDates?.includes(day?.toDate()!)
+    allowedDates?.includes(day?.valueOf()!)
       ? (retorno = false)
       : (retorno = true);
     return retorno;
@@ -130,6 +128,7 @@ const MainPage: React.FC = () => {
               <Grid item style={{ padding: 20 }}>
                 <KeyboardDatePicker
                   disableToolbar
+                  label="Que dia vamos a praia?"
                   format="DD/MM"
                   autoOk={true}
                   value={selectedDate}
