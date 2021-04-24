@@ -7,6 +7,14 @@ import { Button, makeStyles, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import PraiaService from "../../service/PraiaService";
 import bg from "../../assets/praia.jpg";
+import MomentUtils from "@date-io/moment";
+import {
+  KeyboardDatePicker,
+  MuiPickersUtilsProvider
+} from "@material-ui/pickers";
+import { Praia } from "../../model/Praia";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
+import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,15 +54,13 @@ const useStyles = makeStyles((theme) => ({
 
 const MainPage: React.FC = () => {
   const classes = useStyles();
-  const [praias, setPraias] = useState<any[]>([]);
+  const [praias, setPraias] = useState<Praia[]>([]);
+  const [selectedPraia, setSelectedPraia] = useState<Praia | null>();
+  const [selectedDate, setSelectedDate] = React.useState(new Date());
 
-  useEffect(() => {
-    async function fetchPraias() {
-      const response = await PraiaService.getAll();
-      setPraias(response);
-    }
-    fetchPraias();
-  }, []);
+  const handleDateChange = (date: any) => {
+    setSelectedDate(date);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -65,8 +71,30 @@ const MainPage: React.FC = () => {
       console.log(values);
     }
   });
+
+  const disableDates = (day: MaterialUiPickersDate) => {
+    let retorno;
+    const allowedDates = selectedPraia?.agendas.map((a) => {
+      return moment(a.data).startOf("day").toDate();
+    });
+    console.log(allowedDates);
+    console.log(day?.toDate());
+    allowedDates?.includes(day?.toDate()!)
+      ? (retorno = false)
+      : (retorno = true);
+    return retorno;
+  };
+
+  useEffect(() => {
+    async function fetchPraias() {
+      const response = await PraiaService.getAll();
+      setPraias(response);
+    }
+    fetchPraias();
+  }, []);
+
   return (
-    <>
+    <MuiPickersUtilsProvider utils={MomentUtils}>
       <NavBar />
       <section className={classes.mainpage}>
         <Grid container spacing={3}>
@@ -82,7 +110,10 @@ const MainPage: React.FC = () => {
               <Grid item style={{ padding: 20 }}>
                 <Autocomplete
                   id="praia"
-                  onChange={(e, value) => formik.setFieldValue("praia", value)}
+                  onChange={(e, value) => {
+                    formik.setFieldValue("praia", value);
+                    setSelectedPraia(value);
+                  }}
                   options={praias}
                   getOptionLabel={(option: any) => option.nome}
                   style={{ width: 300 }}
@@ -97,18 +128,16 @@ const MainPage: React.FC = () => {
                 />
               </Grid>
               <Grid item style={{ padding: 20 }}>
-                <TextField
-                  value={formik.values.data}
-                  onChange={formik.handleChange}
-                  id="data"
-                  name="data"
-                  label="Dia de ir a praia"
-                  type="date"
-                  defaultValue="2021-05-16"
-                  className={classes.textField}
-                  InputLabelProps={{
-                    shrink: true
+                <KeyboardDatePicker
+                  disableToolbar
+                  format="DD/MM"
+                  autoOk={true}
+                  value={selectedDate}
+                  onChange={handleDateChange}
+                  KeyboardButtonProps={{
+                    "aria-label": "change date"
                   }}
+                  shouldDisableDate={disableDates}
                 />
               </Grid>
               <Grid item style={{ padding: 20 }}>
@@ -124,7 +153,7 @@ const MainPage: React.FC = () => {
           </Grid>
         </Grid>
       </section>
-    </>
+    </MuiPickersUtilsProvider>
   );
 };
 
