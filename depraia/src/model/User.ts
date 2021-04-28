@@ -16,7 +16,7 @@ export default class User {
         this.tipoUsuario = tipoUsuario;
         this.endereco = endereco;
       }
-
+    admin?: boolean;
     cpf: string;
     email: string;
     nome: string;
