@@ -3,6 +3,7 @@ import React from "react";
 import UserService from "../service/UserService";
 import User from "../model/User";
 import { useHistory } from "react-router";
+import { useLocalStorage } from "../hooks/localStorage";
 
 export const CommonContext = React.createContext({});
 
@@ -22,6 +23,7 @@ export interface IStore {
 
 export default ({ children }: React.Props<any>) => {
   const [user, setUser] = React.useState<User | null>(null);
+  const [actualUser, setActualUser] = useLocalStorage("name", "");
   const history = useHistory();
 
   const userActions: IStoreUserAction = {
@@ -38,7 +40,7 @@ export default ({ children }: React.Props<any>) => {
     },
     LoginUser: async (user: any) => {
       const loggedUser = await UserService.loginUser(user);
-      setUser(loggedUser);
+      setActualUser(loggedUser);
       history.push("/");
     }
   };

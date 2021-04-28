@@ -58,7 +58,7 @@ const MainPage: React.FC = () => {
   const [praias, setPraias] = useState<Praia[]>([]);
   const [selectedPraia, setSelectedPraia] = useState<Praia | null>();
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const store = useCommonStore();
+  const [actualUser, setActualUser] = React.useState<any>();
 
   const handleDateChange = (date: any) => {
     setSelectedDate(date);
@@ -91,6 +91,7 @@ const MainPage: React.FC = () => {
       setPraias(response);
     }
     fetchPraias();
+    setActualUser(localStorage.getItem("name"));
   }, []);
 
   return (
