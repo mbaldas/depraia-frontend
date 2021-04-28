@@ -12,6 +12,7 @@ import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import amber from "@material-ui/core/colors/amber";
 import orange from "@material-ui/core/colors/orange";
 import OwnProvider from "./provider/index";
+import CadastroProduto from "./pages/Admin/CadastroProduto";
 
 export default () => {
   const theme = createMuiTheme({
@@ -47,6 +48,9 @@ export default () => {
               </Route>
               <Route exact path="/cadastro-quiosque">
                 <CadastroQuiosque />
+              </Route>
+              <Route exact path="/cadastro-produto">
+                <CadastroProduto />
               </Route>
               <Route exact path="/admin">
                 <MainPageAdmin />
