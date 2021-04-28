@@ -2,11 +2,13 @@ import React from "react";
 
 import UserService from "../service/UserService";
 import User from "../model/User";
+import { useHistory } from "react-router";
 
 export const CommonContext = React.createContext({});
 
 interface IStoreUserAction {
   AddUser: (user: User) => void;
+  LoginUser: (user: any) => void;
 }
 
 export interface IStore {
@@ -20,6 +22,7 @@ export interface IStore {
 
 export default ({ children }: React.Props<any>) => {
   const [user, setUser] = React.useState<User | null>(null);
+  const history = useHistory();
 
   const userActions: IStoreUserAction = {
     AddUser: async (user: User) => {
@@ -28,10 +31,15 @@ export default ({ children }: React.Props<any>) => {
       }
       try {
         const newUser = await UserService.createUser(user);
-        setUser(newUser);
+        history.push("/signin");
       } catch (error) {
         throw error;
       }
+    },
+    LoginUser: async (user: any) => {
+      const loggedUser = await UserService.loginUser(user);
+      setUser(loggedUser);
+      history.push("/");
     }
   };
 
