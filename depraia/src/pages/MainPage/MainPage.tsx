@@ -16,6 +16,7 @@ import { Praia } from "../../model/Praia";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import moment from "moment";
 import { useCommonStore } from "../../hooks";
+import { useLocalStorage } from "../../hooks/localStorage";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,7 +59,7 @@ const MainPage: React.FC = () => {
   const [praias, setPraias] = useState<Praia[]>([]);
   const [selectedPraia, setSelectedPraia] = useState<Praia | null>();
   const [selectedDate, setSelectedDate] = React.useState(null);
-  const [actualUser, setActualUser] = React.useState<any>();
+  const [actualUser, setActualUser] = useLocalStorage("name", "");
 
   const handleDateChange = (date: any) => {
     setSelectedDate(date);
@@ -91,7 +92,7 @@ const MainPage: React.FC = () => {
       setPraias(response);
     }
     fetchPraias();
-    setActualUser(localStorage.getItem("name"));
+    console.log(actualUser);
   }, []);
 
   return (

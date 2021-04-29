@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 export function useLocalStorage(key: any, initialValue: any) {
-  //Refatorar para receber um objeto de user ao inves de any
   const [storedValue, setStoredValue] = useState(() => {
     try {
       const item = window.localStorage.getItem(key);
@@ -15,12 +14,9 @@ export function useLocalStorage(key: any, initialValue: any) {
 
   const setValue = (value: any) => {
     try {
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-
-      setStoredValue(valueToStore);
-
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      var jsonAux = JSON.stringify(value);
+      setStoredValue(jsonAux);
+      window.localStorage.setItem(key, jsonAux);
     } catch (error) {
       console.log(error);
     }
