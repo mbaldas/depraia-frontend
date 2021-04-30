@@ -7,6 +7,10 @@ import "./index.scss";
 import { MenuItems } from "./MenuItems";
 
 const NavBar: React.FC = () => {
+  const logoutFunc = () => {
+    window.localStorage.clear();
+  };
+
   return (
     <nav className="navbar">
       <h1 className="navbar__logo">
@@ -17,7 +21,15 @@ const NavBar: React.FC = () => {
         {MenuItems.map((item, index) => {
           return (
             <li key={index}>
-              <Link to={item.url} className={item.cName}>
+              <Link
+                to={item.url}
+                className={item.cName}
+                onClick={() => {
+                  if (item.title === "Logout") {
+                    logoutFunc();
+                  }
+                }}
+              >
                 {item.title}
               </Link>
             </li>

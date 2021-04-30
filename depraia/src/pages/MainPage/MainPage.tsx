@@ -9,6 +9,7 @@ import PraiaService from "../../service/PraiaService";
 import bg from "../../assets/praia.jpg";
 import MomentUtils from "@date-io/moment";
 import {
+  DatePicker,
   KeyboardDatePicker,
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
@@ -17,6 +18,7 @@ import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import moment from "moment";
 import { useCommonStore } from "../../hooks";
 import { useLocalStorage } from "../../hooks/localStorage";
+import AgendaService from "../../service/AgendaService";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -58,22 +60,8 @@ const MainPage: React.FC = () => {
   const classes = useStyles();
   const [praias, setPraias] = useState<Praia[]>([]);
   const [selectedPraia, setSelectedPraia] = useState<Praia | null>();
-  const [selectedDate, setSelectedDate] = React.useState(null);
   const [actualUser, setActualUser] = useLocalStorage("name", "");
-
-  const handleDateChange = (date: any) => {
-    setSelectedDate(date);
-  };
-
-  const formik = useFormik({
-    initialValues: {
-      data: "",
-      praia: ""
-    },
-    onSubmit: (values) => {
-      console.log(values);
-    }
-  });
+  const [agendas, setAgendas] = useState<any[]>([]);
 
   const disableDates = (day: MaterialUiPickersDate) => {
     let retorno;
@@ -86,13 +74,23 @@ const MainPage: React.FC = () => {
     return retorno;
   };
 
+  const formik = useFormik({
+    initialValues: {
+      data: new Date(),
+      praia: "",
+      user: ""
+    },
+    onSubmit: (values) => {
+      AgendaService.putReserva(values, selectedPraia!, actualUser);
+    }
+  });
+
   useEffect(() => {
     async function fetchPraias() {
       const response = await PraiaService.getAll();
       setPraias(response);
     }
     fetchPraias();
-    console.log(actualUser);
   }, []);
 
   return (
@@ -130,18 +128,18 @@ const MainPage: React.FC = () => {
                 />
               </Grid>
               <Grid item style={{ padding: 20 }}>
-                <KeyboardDatePicker
+                <DatePicker
                   disableToolbar
                   label="Que dia vamos a praia?"
-                  format="DD/MM"
+                  format="DD/MM/yyyy"
                   autoOk={true}
                   disabled={selectedPraia === (null || undefined)}
-                  value={selectedDate}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date"
+                  value={formik.values.data}
+                  onChange={(value) => {
+                    formik.setFieldValue("data", value);
                   }}
                   shouldDisableDate={disableDates}
+                  rightArrowIcon
                 />
               </Grid>
               <Grid item style={{ padding: 20 }}>
