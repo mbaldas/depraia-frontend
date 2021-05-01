@@ -11,6 +11,7 @@ export default {
       'Content-Type': 'application/json'
     };
     const response = await axios.post(`https://depraia-api.herokuapp.com/praia`, JSON.stringify(praia))
+    console.log(response);
     return response.data;
   },
 };

@@ -1,6 +1,6 @@
+import React from 'react';
 import "./index.scss";
 import TextField from "@material-ui/core/TextField";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { Button } from "@material-ui/core";
 import MenuAdmin from "./MenuAdmin";
 import NavBar from "../../components/NavBar/NavBar";
@@ -8,10 +8,27 @@ import { useFormik } from "formik";
 import  NewPraia  from "../../model/NewPraia";
 import Endereco from "../../model/Endereco";
 import PraiaService from "../../service/PraiaService";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default function CadastroPraia() {
+  const [open, setOpen] = React.useState(false);
+  const [status, setStatus] = React.useState("");
+  const [mensagem, setMensagem] = React.useState("");
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       nome: "",
@@ -20,7 +37,7 @@ export default function CadastroPraia() {
       cidade: "",
       cep: ""
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const endereco = new Endereco(
         values.rua,
         values.bairro,
@@ -31,8 +48,18 @@ export default function CadastroPraia() {
         values.nome,
         endereco
       );
-      PraiaService.createPraia(praia);
+      const retorno = await PraiaService.createPraia(praia);
 
+      if(retorno == "Saved") {
+        setOpen(true);
+        setMensagem("Cadastro realizado com sucesso!");
+        setStatus("success");        
+      } 
+      else {
+        setOpen(true);
+        setMensagem("Erro no cadastro, tente novamente!");
+        setStatus("error");
+      }
     }
   });
 
@@ -47,6 +74,7 @@ export default function CadastroPraia() {
               <h1 className="font--black">Cadastro de Praia</h1>
               <form onSubmit={formik.handleSubmit}> 
               <TextField
+                required
                 id="nome"
                 name="nome"
                 label="Nome"
@@ -55,6 +83,7 @@ export default function CadastroPraia() {
               />
                <div className="form-group">
               <TextField
+                required
                 id="rua"
                 name="rua"
                 label="Rua"
@@ -65,6 +94,7 @@ export default function CadastroPraia() {
             </div>
             <div className="form-group">
               <TextField
+                required
                 id="bairro"
                 name="bairro"
                 label="Bairro"
@@ -75,6 +105,7 @@ export default function CadastroPraia() {
             </div>
             <div className="form-group">
               <TextField
+                required
                 id="cidade"
                 name="cidade"
                 label="Cidade"
@@ -85,6 +116,7 @@ export default function CadastroPraia() {
             </div>
             <div className="form-group">
               <TextField
+                required
                 id="cep"
                 name="cep"
                 label="CEP"
@@ -103,6 +135,11 @@ export default function CadastroPraia() {
               </form>
             </div>
           </div>
+          <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+            <Alert onClose={handleClose} style={status == "success" ? {backgroundColor:"green"} : {backgroundColor:"red"}}>
+              {mensagem}
+            </Alert>
+          </Snackbar>
       </div>
     </>
   );

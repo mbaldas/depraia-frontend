@@ -26,6 +26,6 @@ export default {
       'Content-Type': 'application/json'
     };
     const response = await axios.post(`https://depraia-api.herokuapp.com/agenda`, JSON.stringify(agenda))
-    return response.data;
+    return response;
   }
 };

@@ -1,3 +1,4 @@
+import React from 'react';
 import "./index.scss";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
@@ -6,23 +7,52 @@ import NavBar from "../../components/NavBar/NavBar";
 import { useFormik } from "formik";
 import Produto from "../../model/Produto";
 import ProdutoService from "../../service/ProdutoService";
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
+function Alert(props: AlertProps) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 export default function CadastroProduto() {
+  const [open, setOpen] = React.useState(false);
+  const [status, setStatus] = React.useState("");
+  const [mensagem, setMensagem] = React.useState("");
+
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       nome: "",
       descricao: "",
       preco: 0,
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       console.log(values);
       const produto = new Produto(
         values.nome,
         values.descricao,
         values.preco
       );
-      ProdutoService.createProduto(produto);
+      const retorno = await  ProdutoService.createProduto(produto);
+
+      if(retorno == "Saved") {
+        setOpen(true);
+        setMensagem("Cadastro realizado com sucesso!");
+        setStatus("success");        
+      } 
+      else {
+        setOpen(true);
+        setMensagem("Erro no cadastro, tente novamente!");
+        setStatus("error");
+      }
+
     }
   
   });
@@ -39,6 +69,7 @@ export default function CadastroProduto() {
               <form onSubmit={formik.handleSubmit}>
               <div className="form-group">
               <TextField
+                required
                 id="nome"
                 name="nome"
                 label="Nome"
@@ -48,6 +79,7 @@ export default function CadastroProduto() {
               </div>
               <div className="form-group">
               <TextField
+                required
                 id="descricao"
                 name="descricao"
                 label="Descrição"
@@ -57,6 +89,7 @@ export default function CadastroProduto() {
             </div>
             <div className="form-group">
               <TextField
+                required
                 id="preco"
                 name="preco"
                 label="Preço"
@@ -74,6 +107,11 @@ export default function CadastroProduto() {
               </form>
             </div>
           </div>
+          <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
+            <Alert onClose={handleClose} style={status == "success" ? {backgroundColor:"green"} : {backgroundColor:"red"}}>
+              {mensagem}
+            </Alert>
+          </Snackbar>
       </div>
     </>
   );
