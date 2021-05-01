@@ -15,6 +15,9 @@ import OwnProvider from "./provider/index";
 import CadastroProduto from "./pages/Admin/CadastroProduto";
 import CadastroAgenda from "./pages/Admin/CadastroAgenda";
 import AboutUs from "./pages/AboutUs/AboutUs";
+import MenuMinhasReservas from "./pages/MinhasReservas/MenuMinhasReservas";
+import Historico from "./pages/MinhasReservas/Historico";
+import ProximasReservas from "./pages/MinhasReservas/ProximasReservas";
 
 export default () => {
   const theme = createMuiTheme({
@@ -59,6 +62,15 @@ export default () => {
               </Route>
               <Route exact path="/admin">
                 <MainPageAdmin />
+              </Route>
+              <Route exact path="/menu-minhas-reservas">
+                <MenuMinhasReservas />
+              </Route>
+              <Route exact path="/historico-reservas">
+                <Historico />
+              </Route>
+              <Route exact path="/proximas-reservas">
+                <ProximasReservas />
               </Route>
               <Route exact path="/about-us">
                 <AboutUs />
