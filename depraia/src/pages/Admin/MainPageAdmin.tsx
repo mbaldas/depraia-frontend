@@ -27,9 +27,8 @@ export default function MainPageAdmin() {
             <div className="container--right__admin">
               <h1 className="font--black">Olá, nomeDoUsuario!</h1>
               <h3 className="font--black">
-                Navegue pelo menu ao lado para cadastrar praias e/ou quiosques
+                Navegue pelo menu ao lado para cadastrar praias, quiosques, produtos e agendas
               </h3>
-              <h3 className="font--black">ALGUMA IMAGEM</h3>
             </div>
           </div>
         </form>

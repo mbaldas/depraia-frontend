@@ -1,5 +1,5 @@
 import "./index.scss";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import NavBar from "../../components/NavBar/NavBar";
 import { Button, makeStyles, TextField } from "@material-ui/core";
@@ -9,60 +9,43 @@ import AgendaService from "../../service/AgendaService";
 import { Praia } from "../../model/Praia";
 import NewAgenda from "../../model/NewAgenda";
 import MenuAdmin from "./MenuAdmin";
-import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import moment from "moment";
+import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
 import {
-  KeyboardDatePicker,
+  DatePicker,
   MuiPickersUtilsProvider
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
 
-
-
 export default function CadastroAgenda() {
   const [praias, setPraias] = useState<Praia[]>([]);
   const [selectedPraia, setSelectedPraia] = useState<Praia | null>();
-  const [selectedDate, setSelectedDate] = useState(moment());
-  const [inputValue, setInputValue] = React.useState(moment().format("YYYY-MM-DD"));
-  const [date, setDate] = React.useState('');
-
- 
-  const handleDateChange = (date: any, value: any) => {
-    console.log(date, value);
-    setSelectedDate(date);
-    setInputValue(value);
-    console.log(date, inputValue);
-  };
-
-  const dateFormatter = (str: string) => {
-    console.log(str);
-    return str;
-  };
 
   const disableDates = (day: MaterialUiPickersDate) => {
     let retorno;
-    const allowedDates = selectedPraia?.agendas.map((a) => {
+    const allowedDates = praias[0]?.agendas.map((a) => {
       return moment(a.data).startOf("day").valueOf();
     });
     allowedDates?.includes(day?.valueOf()!)
-      ? (retorno = false)
-      : (retorno = true);
+      ? (retorno = true)
+      : (retorno = false);
+
     return retorno;
+
   };
-
-
+ 
   const formik = useFormik({
     initialValues: {
-      data: "",
+      data: new Date(),
       vagas: 0
     },
     onSubmit: (values) => {
-      console.log(values);
       const agenda = new NewAgenda(
-        date,
+        moment(values.data).format("DD/MM/YYYY"),
         praias[0],
         values.vagas
       );
+      console.log(agenda);
       AgendaService.createAgenda(agenda);
     }
   
@@ -104,22 +87,19 @@ export default function CadastroAgenda() {
                     />
                   )}
                 />
-                 <KeyboardDatePicker
+                  <DatePicker
+                  minDate={new Date()}
                   disableToolbar
-                  label="Data da agenda"
-            
+                  label="Selecione a data"
+                  format="DD/MM/yyyy"
                   autoOk={true}
                   disabled={selectedPraia === (null || undefined)}
-                  showTodayButton={true}
-                  value={selectedDate}
-                  format="YYYY-MM-DD"
-                  inputValue={inputValue}
-                  onChange={handleDateChange}
-                  KeyboardButtonProps={{
-                    "aria-label": "change date"
+                  value={formik.values.data}
+                  onChange={(value) => {
+                    formik.setFieldValue("data", value);
                   }}
-                  rifmFormatter={dateFormatter}
-                
+                  shouldDisableDate={disableDates}
+               
                 />
                 <div className="form-group">
                 <TextField
