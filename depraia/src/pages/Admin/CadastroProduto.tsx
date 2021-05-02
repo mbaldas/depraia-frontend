@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import "./index.scss";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
@@ -7,8 +7,8 @@ import NavBar from "../../components/NavBar/NavBar";
 import { useFormik } from "formik";
 import Produto from "../../model/Produto";
 import ProdutoService from "../../service/ProdutoService";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -20,7 +20,7 @@ export default function CadastroProduto() {
   const [mensagem, setMensagem] = React.useState("");
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -31,87 +31,90 @@ export default function CadastroProduto() {
     initialValues: {
       nome: "",
       descricao: "",
-      preco: 0,
+      preco: 0
     },
     onSubmit: async (values) => {
-      console.log(values);
-      const produto = new Produto(
-        values.nome,
-        values.descricao,
-        values.preco
-      );
-      const retorno = await  ProdutoService.createProduto(produto);
+      const produto = new Produto(values.nome, values.descricao, values.preco);
+      const retorno = await ProdutoService.createProduto(produto);
 
-      if(retorno == "Saved") {
+      if (retorno == "Saved") {
         setOpen(true);
         setMensagem("Cadastro realizado com sucesso!");
-        setStatus("success");        
-      } 
-      else {
+        setStatus("success");
+      } else {
         setOpen(true);
         setMensagem("Erro no cadastro, tente novamente!");
         setStatus("error");
       }
-
     }
-  
   });
-
 
   return (
     <>
       <NavBar />
       <div className="container--admin">
         <MenuAdmin />
-          <div className="right--admin">
-            <div className="container--right__admin">
-              <h1 className="font--black">Cadastro de Produto</h1>
-              <form onSubmit={formik.handleSubmit}>
+        <div className="right--admin">
+          <div className="container--right__admin">
+            <h1 className="font--black">Cadastro de Produto</h1>
+            <form onSubmit={formik.handleSubmit}>
               <div className="form-group">
-              <TextField
-                required
-                id="nome"
-                name="nome"
-                label="Nome"
-                placeholder="Ex. Empada"
-                onChange={formik.handleChange}
-              />
+                <TextField
+                  required
+                  id="nome"
+                  name="nome"
+                  label="Nome"
+                  placeholder="Ex. Empada"
+                  onChange={formik.handleChange}
+                />
               </div>
               <div className="form-group">
-              <TextField
-                required
-                id="descricao"
-                name="descricao"
-                label="Descrição"
-                value={formik.values.descricao}
-                onChange={formik.handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <TextField
-                required
-                id="preco"
-                name="preco"
-                label="Preço"
-                value={formik.values.preco}
-                onChange={formik.handleChange}
-              />
-            </div>
-                <Button
-                  variant="contained"
-                  className="button--cadastro"
-                  type="submit"
-                >
-                  <span className="button--text">CADASTRAR</span>
-                </Button>
-              </form>
-            </div>
+                <TextField
+                  required
+                  id="descricao"
+                  name="descricao"
+                  label="Descrição"
+                  value={formik.values.descricao}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <TextField
+                  required
+                  id="preco"
+                  name="preco"
+                  label="Preço"
+                  value={formik.values.preco}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <Button
+                variant="contained"
+                className="button--cadastro"
+                type="submit"
+              >
+                <span className="button--text">CADASTRAR</span>
+              </Button>
+            </form>
           </div>
-          <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
-            <Alert onClose={handleClose} style={status == "success" ? {backgroundColor:"green"} : {backgroundColor:"red"}}>
-              {mensagem}
-            </Alert>
-          </Snackbar>
+        </div>
+        <Snackbar
+          open={open}
+          autoHideDuration={4000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleClose}
+            style={
+              status == "success"
+                ? { backgroundColor: "green" }
+                : { backgroundColor: "red" }
+            }
+          >
+            {mensagem}
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );

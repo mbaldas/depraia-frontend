@@ -19,6 +19,8 @@ import moment from "moment";
 import { useCommonStore } from "../../hooks";
 import { useLocalStorage } from "../../hooks/localStorage";
 import AgendaService from "../../service/AgendaService";
+import { Snackbar } from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,7 +63,9 @@ const MainPage: React.FC = () => {
   const [praias, setPraias] = useState<Praia[]>([]);
   const [selectedPraia, setSelectedPraia] = useState<Praia | null>();
   const [actualUser, setActualUser] = useLocalStorage("name", "");
-  const [agendas, setAgendas] = useState<any[]>([]);
+  const [open, setOpen] = React.useState(false);
+  const [status, setStatus] = React.useState("");
+  const [mensagem, setMensagem] = React.useState("");
 
   const disableDates = (day: MaterialUiPickersDate) => {
     let retorno;
@@ -74,14 +78,35 @@ const MainPage: React.FC = () => {
     return retorno;
   };
 
+  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const formik = useFormik({
     initialValues: {
       data: new Date(),
       praia: "",
       user: ""
     },
-    onSubmit: (values) => {
-      AgendaService.putReserva(values, selectedPraia!, actualUser);
+    onSubmit: async (values) => {
+      const response = await AgendaService.putReserva(
+        values,
+        selectedPraia!,
+        actualUser
+      );
+      if (response.status === 200) {
+        setOpen(true);
+        setMensagem("Reserva realizada com sucesso!");
+        setStatus("success");
+      } else {
+        setOpen(true);
+        setMensagem("Vagas totalmente ocupadas, tente novamente!");
+        setStatus("error");
+      }
     }
   });
 
@@ -154,6 +179,23 @@ const MainPage: React.FC = () => {
             </form>
           </Grid>
         </Grid>
+        <Snackbar
+          open={open}
+          autoHideDuration={4000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleClose}
+            style={
+              status == "success"
+                ? { backgroundColor: "green" }
+                : { backgroundColor: "red" }
+            }
+          >
+            {mensagem}
+          </Alert>
+        </Snackbar>
       </section>
     </MuiPickersUtilsProvider>
   );

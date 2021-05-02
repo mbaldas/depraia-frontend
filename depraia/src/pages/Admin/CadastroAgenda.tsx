@@ -11,18 +11,14 @@ import NewAgenda from "../../model/NewAgenda";
 import MenuAdmin from "./MenuAdmin";
 import moment from "moment";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-import {
-  DatePicker,
-  MuiPickersUtilsProvider
-} from "@material-ui/pickers";
+import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
-
 
 export default function CadastroAgenda() {
   const [praias, setPraias] = useState<Praia[]>([]);
@@ -32,13 +28,12 @@ export default function CadastroAgenda() {
   const [mensagem, setMensagem] = React.useState("");
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setOpen(false);
   };
-
 
   const disableDates = (day: MaterialUiPickersDate) => {
     let retorno;
@@ -50,9 +45,8 @@ export default function CadastroAgenda() {
       : (retorno = false);
 
     return retorno;
-
   };
- 
+
   const formik = useFormik({
     initialValues: {
       data: new Date(),
@@ -64,21 +58,17 @@ export default function CadastroAgenda() {
         praias[0],
         values.vagas
       );
-      console.log(agenda);
       const retorno = await AgendaService.createAgenda(agenda);
-        console.log(retorno);
-      if(retorno.status == 200) {
+      if (retorno.status == 200) {
         setOpen(true);
         setMensagem("Cadastro realizado com sucesso!");
-        setStatus("success");        
-      } 
-      else {
+        setStatus("success");
+      } else {
         setOpen(true);
         setMensagem("Erro no cadastro, tente novamente!");
         setStatus("error");
       }
     }
-  
   });
 
   useEffect(() => {
@@ -89,51 +79,49 @@ export default function CadastroAgenda() {
     fetchPraias();
   }, []);
 
-
   return (
     <MuiPickersUtilsProvider utils={MomentUtils}>
       <NavBar />
       <div className="container--admin">
         <MenuAdmin />
-          <div className="right--admin">
-            <div className="container--right__admin">
-              <h1 className="font--black">Cadastro de Agenda</h1>
-              <form onSubmit={formik.handleSubmit}>
+        <div className="right--admin">
+          <div className="container--right__admin">
+            <h1 className="font--black">Cadastro de Agenda</h1>
+            <form onSubmit={formik.handleSubmit}>
               <Autocomplete
-                  id="praia"
-                  onChange={(e, value) => {
-                    formik.setFieldValue("praia", value);
-                    setSelectedPraia(value);
-                  }}
-                  options={praias}
-                  getOptionLabel={(option: any) => option.nome}
-                  style={{ width: 300 }}
-                  renderInput={(params: any) => (
-                    <TextField
-                      required
-                      {...params}
-                      name="praia"
-                      label="Selecione sua Praia"
-                      variant="outlined"
-                    />
-                  )}
-                />
-                  <DatePicker
-                  required
-                  minDate={new Date()}
-                  disableToolbar
-                  label="Selecione a data"
-                  format="DD/MM/yyyy"
-                  autoOk={true}
-                  disabled={selectedPraia === (null || undefined)}
-                  value={formik.values.data}
-                  onChange={(value) => {
-                    formik.setFieldValue("data", value);
-                  }}
-                  shouldDisableDate={disableDates}
-               
-                />
-                <div className="form-group">
+                id="praia"
+                onChange={(e, value) => {
+                  formik.setFieldValue("praia", value);
+                  setSelectedPraia(value);
+                }}
+                options={praias}
+                getOptionLabel={(option: any) => option.nome}
+                style={{ width: 300 }}
+                renderInput={(params: any) => (
+                  <TextField
+                    required
+                    {...params}
+                    name="praia"
+                    label="Selecione sua Praia"
+                    variant="outlined"
+                  />
+                )}
+              />
+              <DatePicker
+                required
+                minDate={new Date()}
+                disableToolbar
+                label="Selecione a data"
+                format="DD/MM/yyyy"
+                autoOk={true}
+                disabled={selectedPraia === (null || undefined)}
+                value={formik.values.data}
+                onChange={(value) => {
+                  formik.setFieldValue("data", value);
+                }}
+                shouldDisableDate={disableDates}
+              />
+              <div className="form-group">
                 <TextField
                   required
                   id="vagas"
@@ -143,25 +131,36 @@ export default function CadastroAgenda() {
                   value={formik.values.vagas}
                   onChange={formik.handleChange}
                 />
-                </div>
-              
-                <Button
-                  variant="contained"
-                  className="button--cadastro"
-                  type="submit"
-                >
-                  <span className="button--text">CADASTRAR</span>
-                </Button>
-              </form>
-            </div>
+              </div>
+
+              <Button
+                variant="contained"
+                className="button--cadastro"
+                type="submit"
+              >
+                <span className="button--text">CADASTRAR</span>
+              </Button>
+            </form>
           </div>
-          <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
-            <Alert onClose={handleClose} style={status == "success" ? {backgroundColor:"green"} : {backgroundColor:"red"}}>
-              {mensagem}
-            </Alert>
-          </Snackbar>
+        </div>
+        <Snackbar
+          open={open}
+          autoHideDuration={4000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleClose}
+            style={
+              status == "success"
+                ? { backgroundColor: "green" }
+                : { backgroundColor: "red" }
+            }
+          >
+            {mensagem}
+          </Alert>
+        </Snackbar>
       </div>
-      </MuiPickersUtilsProvider>
+    </MuiPickersUtilsProvider>
   );
 }
-
