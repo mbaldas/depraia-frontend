@@ -11,6 +11,9 @@ export default function MenuGraphs() {
         <Link to={"/grafico-quiosque"} className="container--left__admin">
           Quiosques por praia
         </Link>
+        <Link to={"/grafico-ambulante"} className="container--left__admin">
+          Informações sobre ambulantes
+        </Link>
       </div>
     </>
   );

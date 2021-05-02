@@ -22,6 +22,7 @@ import MainPageGraphs from "./pages/Graphs/MainPageGraphs";
 import GraphQuiosque from "./pages/Graphs/GraphQuiosque";
 import MeusProdutos from "./pages/MeusProdutos/MeusProdutos";
 import CadastrarProdutos from "./pages/MeusProdutos/CadastrarProdutos";
+import GraphAmbulante from "./pages/Graphs/GraphAmbulante";
 
 export default () => {
   const theme = createMuiTheme({
@@ -96,6 +97,9 @@ export default () => {
               </Route>
               <Route exact path="/grafico-quiosque">
                 <GraphQuiosque />
+              </Route>
+              <Route exact path="/grafico-ambulante">
+                <GraphAmbulante />
               </Route>
             </Switch>
           </OwnProvider>
