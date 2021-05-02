@@ -2,34 +2,44 @@ import "./index.scss";
 import React from "react";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import NavBar from "../../components/NavBar/NavBar";
+import { Container, Grid, Paper } from "@material-ui/core";
+import img from "../../assets/empresarios.png";
 
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      "& .MuiTextField-root": {
-        margin: theme.spacing(1),
-        width: "25ch"
-      }
-    }
-  })
-);
+const useStyles = makeStyles((theme) => ({
+  imagem: {
+    height: "90vh",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundImage: `url(${img})`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "top",
+    marginTop: "60px",
+    backgroundSize: "450px"
+  }
+}));
 
 export default function AboutUs() {
     const classes = useStyles();
 
     return(
-        <>
+    <>
         <NavBar />
-        <div className="container">
-            <img src="../../assets/empresarios.png"/>
-            <h2>Sobre Nos</h2>
-            <p>Mussum Ipsum, cacilds vidis litro abertis. Mé faiz elementum girarzis, nisi eros vermeio. Manduma pindureta quium dia nois paga. Paisis, filhis, espiritis santis. Pra lá , depois divoltis porris, paradis.
+      
+        <Container>
+       
+            <h2>Sobre Nós</h2>
+            <p>Numa época pandêmica, um dos problemas, principalmente no Rio de Janeiro são as praias.
+Elas estão sempre cheias, e não há nenhuma fiscalização no entorno disso.
+Sabemos que uma das formas de controlar isso é fechando as mesmas, mas como isso não ocorre já tem tempo, a idéia do site é realizar agendamento de lugares nas praias, respeitando o distanciamento social entre esses lugares, de modo a evitar que as pessoas que lá estejam possam se tornar vetores de transmissão do COVID-19
 
-Suco de cevadiss deixa as pessoas mais interessantis. A ordem dos tratores não altera o pão duris. Praesent vel viverra nisi. Mauris aliquet nunc non turpis scelerisque, eget. Quem num gosta di mim que vai caçá sua turmis!
+               </p> 
+        <div className={classes.imagem}/>
+               
+               </Container>
+               </>    
+     
 
-Tá deprimidis, eu conheço uma cachacis que pode alegrar sua vidis. Cevadis im ampola pa arma uma pindureta. Leite de capivaris, leite de mula manquis sem cabeça. Posuere libero varius. Nullam a nisl ut ante blandit hendrerit. Aenean sit amet nisi.</p>
-        </div>
-        </>
     )
 }
