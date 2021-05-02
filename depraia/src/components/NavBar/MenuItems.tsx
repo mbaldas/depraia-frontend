@@ -15,6 +15,11 @@ export const MenuItems = [
     cName: "navbar__links"
   },
   {
+    title: "Meus Produtos",
+    url: "/meus-produtos",
+    cName: "navbar__links"
+  },
+  {
     title: "Sobre",
     url: "/about-us",
     cName: "navbar__links"

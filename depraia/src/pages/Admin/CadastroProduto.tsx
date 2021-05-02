@@ -5,7 +5,7 @@ import { Button } from "@material-ui/core";
 import MenuAdmin from "./MenuAdmin";
 import NavBar from "../../components/NavBar/NavBar";
 import { useFormik } from "formik";
-import Produto from "../../model/Produto";
+import NewProduto from "../../model/NewProduto";
 import ProdutoService from "../../service/ProdutoService";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
@@ -34,7 +34,12 @@ export default function CadastroProduto() {
       preco: 0
     },
     onSubmit: async (values) => {
-      const produto = new Produto(values.nome, values.descricao, values.preco);
+      console.log(values);
+      const produto = new NewProduto(
+        values.nome,
+        values.descricao,
+        values.preco
+      );
       const retorno = await ProdutoService.createProduto(produto);
 
       if (retorno == "Saved") {

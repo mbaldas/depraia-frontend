@@ -1,7 +1,7 @@
 import "./index.scss";
-import MenuAdmin from "./MenuMinhasReservas";
+import MenuMinhasReservas from "./MenuMinhasReservas";
 import NavBar from "../../components/NavBar/NavBar";
-import React from 'react';
+import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -11,6 +11,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import PraiaService from "../../service/PraiaService";
+
 
 interface Column {
   id: 'praia' | 'data' | 'vagas';
@@ -27,25 +29,8 @@ const columns: Column[] = [
     id: 'vagas',
     label: 'Vagas',
     minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('en-US')
+    align: 'right'
   }
-];
-
-interface Data {
-  praia: string;
-  data: string;
-  vagas: number;
-}
-
-function createData(praia: string, data: string,vagas: number): Data {
-  return { praia, data, vagas};
-}
-
-const rows = [
-  createData('Teste', 'Teste', 1),
-  createData('Teste', 'Teste', 2),
-  createData('Teste', 'Teste', 3),
 ];
 
 const useStyles = makeStyles({
@@ -57,10 +42,13 @@ const useStyles = makeStyles({
   },
 });
 
+
 export default function ProximasReservas() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [agendas, setAgendas] = useState<any[]>([]);
+
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -71,6 +59,27 @@ export default function ProximasReservas() {
     setPage(0);
   };
 
+  useEffect(() => {
+    async function fetchPraias() {
+      const response = await PraiaService.getAll();
+      var a: any[] = [];
+      response.map( (response : any) => {
+      const praia = response.agendas.map((agenda: { data: any; vagas: any; }) => ({
+      praia: response.nome,
+      data: agenda.data,
+      vagas: agenda.vagas
+      })).filter((agenda: { data: string; }) => (new Date(agenda.data)) > new Date())
+      
+    praia.map((agenda : any) => {
+      a.push(agenda)
+    })
+ 
+    setAgendas(a);
+    })
+    }
+    fetchPraias();
+  }, []);
+
 
 
 
@@ -78,7 +87,7 @@ export default function ProximasReservas() {
     <>
       <NavBar />
       <div className="container--reservas">
-        <MenuAdmin />
+        <MenuMinhasReservas />
           <div className="right--reservas">
             <div className="container--right__reservas">
               <h1 className="font--black"  style={{marginBottom:"50px"}}>Próximas Reservas</h1>
@@ -98,10 +107,11 @@ export default function ProximasReservas() {
                           ))}
                         </TableRow>
                       </TableHead>
-                      <TableBody>
-                        {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                      <TableBody> 
+                        {agendas.length > 0 && (  
+                         agendas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                           return (
-                            <TableRow hover role="checkbox" tabIndex={-1} key={row.data}>
+                            <TableRow hover role="checkbox" tabIndex={-1} key={row.praia}>
                               {columns.map((column) => {
                                 const value = row[column.id];
                                 return (
@@ -112,14 +122,16 @@ export default function ProximasReservas() {
                               })}
                             </TableRow>
                           );
-                        })}
+                        })
+                        )}
+                        
                       </TableBody>
                     </Table>
-                  </TableContainer>
+                  </TableContainer> 
                   <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={rows.length}
+                    count={agendas.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}
