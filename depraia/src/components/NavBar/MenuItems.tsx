@@ -26,7 +26,7 @@ export const MenuItems = [
   },
   {
     title: "Graficos",
-    url: "/graphs",
+    url: "/menu-graphs",
     cName: "navbar__links"
   },
   {

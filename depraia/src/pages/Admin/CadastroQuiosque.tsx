@@ -9,8 +9,8 @@ import QuiosqueService from "../../service/QuiosqueService";
 import { Praia } from "../../model/Praia";
 import NewQuiosque from "../../model/NewQuiosque";
 import MenuAdmin from "./MenuAdmin";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -24,7 +24,7 @@ export default function CadastroQuiosque() {
   const [mensagem, setMensagem] = React.useState("");
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -36,25 +36,18 @@ export default function CadastroQuiosque() {
       nome: ""
     },
     onSubmit: async (values) => {
-      console.log(values);
-      const quiosque = new NewQuiosque(
-        values.nome,
-        praias[0]
-      );
+      const quiosque = new NewQuiosque(values.nome, praias[0]);
       const retorno = await QuiosqueService.createQuiosque(quiosque);
-      console.log(retorno);
-      if(retorno.status == 200) {
+      if (retorno.status == 200) {
         setOpen(true);
         setMensagem("Cadastro realizado com sucesso!");
-        setStatus("success");        
-      } 
-      else {
+        setStatus("success");
+      } else {
         setOpen(true);
         setMensagem("Erro no cadastro, tente novamente!");
         setStatus("error");
       }
     }
-  
   });
 
   useEffect(() => {
@@ -65,36 +58,35 @@ export default function CadastroQuiosque() {
     fetchPraias();
   }, []);
 
-
   return (
     <>
       <NavBar />
       <div className="container--admin">
         <MenuAdmin />
-          <div className="right--admin">
-            <div className="container--right__admin">
-              <h1 className="font--black">Cadastro de Quiosque</h1>
-              <form onSubmit={formik.handleSubmit}>
+        <div className="right--admin">
+          <div className="container--right__admin">
+            <h1 className="font--black">Cadastro de Quiosque</h1>
+            <form onSubmit={formik.handleSubmit}>
               <Autocomplete
-                  id="praia"
-                  onChange={(e, value) => {
-                    formik.setFieldValue("praia", value);
-                    setSelectedPraia(value);
-                  }}
-                  options={praias}
-                  getOptionLabel={(option: any) => option.nome}
-                  style={{ width: 300 }}
-                  renderInput={(params: any) => (
-                    <TextField
-                      required
-                      {...params}
-                      name="praia"
-                      label="Selecione sua Praia"
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <div className="form-group">
+                id="praia"
+                onChange={(e, value) => {
+                  formik.setFieldValue("praia", value);
+                  setSelectedPraia(value);
+                }}
+                options={praias}
+                getOptionLabel={(option: any) => option.nome}
+                style={{ width: 300 }}
+                renderInput={(params: any) => (
+                  <TextField
+                    required
+                    {...params}
+                    name="praia"
+                    label="Selecione sua Praia"
+                    variant="outlined"
+                  />
+                )}
+              />
+              <div className="form-group">
                 <TextField
                   required
                   id="nome"
@@ -103,25 +95,36 @@ export default function CadastroQuiosque() {
                   value={formik.values.nome}
                   onChange={formik.handleChange}
                 />
-                </div>
-              
-                <Button
-                  variant="contained"
-                  className="button--cadastro"
-                  type="submit"
-                >
-                  <span className="button--text">CADASTRAR</span>
-                </Button>
-              </form>
-            </div>
+              </div>
+
+              <Button
+                variant="contained"
+                className="button--cadastro"
+                type="submit"
+              >
+                <span className="button--text">CADASTRAR</span>
+              </Button>
+            </form>
           </div>
-          <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
-            <Alert onClose={handleClose} style={status == "success" ? {backgroundColor:"green"} : {backgroundColor:"red"}}>
-              {mensagem}
-            </Alert>
-          </Snackbar>
+        </div>
+        <Snackbar
+          open={open}
+          autoHideDuration={4000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleClose}
+            style={
+              status == "success"
+                ? { backgroundColor: "green" }
+                : { backgroundColor: "red" }
+            }
+          >
+            {mensagem}
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );
 }
-

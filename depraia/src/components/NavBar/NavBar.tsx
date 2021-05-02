@@ -15,8 +15,6 @@ const NavBar: React.FC = () => {
     history.push("/signin");
   };
 
-  console.log(actualUser);
-
   return (
     <nav className="navbar">
       <h1 className="navbar__logo">

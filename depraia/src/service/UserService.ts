@@ -4,7 +4,6 @@ import User from "../model/User";
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
   async createUser(user: User) {
-    console.log(user);
     user.admin = false;
     axios.defaults.headers = {
       'Content-Type': 'application/json'

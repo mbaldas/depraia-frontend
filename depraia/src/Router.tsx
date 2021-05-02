@@ -7,7 +7,6 @@ import MenuAdmin from "./pages/Admin/MenuAdmin";
 import CadastroPraia from "./pages/Admin/CadastroPraia";
 import CadastroQuiosque from "./pages/Admin/CadastroQuiosque";
 import MainPageAdmin from "./pages/Admin/MainPageAdmin";
-import Graphs from "./pages/Graphs/Graphs";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import amber from "@material-ui/core/colors/amber";
 import orange from "@material-ui/core/colors/orange";
@@ -18,6 +17,9 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import MenuMinhasReservas from "./pages/MinhasReservas/MenuMinhasReservas";
 import Historico from "./pages/MinhasReservas/Historico";
 import ProximasReservas from "./pages/MinhasReservas/ProximasReservas";
+import GraphPraia from "./pages/Graphs/GraphPraia";
+import MainPageGraphs from "./pages/Graphs/MainPageGraphs";
+import GraphQuiosque from "./pages/Graphs/GraphQuiosque";
 import MeusProdutos from "./pages/MeusProdutos/MeusProdutos";
 import CadastrarProdutos from "./pages/MeusProdutos/CadastrarProdutos";
 
@@ -86,8 +88,14 @@ export default () => {
               <Route exact path="/about-us">
                 <AboutUs />
               </Route>
-              <Route exact path="/graphs">
-                <Graphs />
+              <Route exact path="/menu-graphs">
+                <MainPageGraphs />
+              </Route>
+              <Route exact path="/grafico-praia">
+                <GraphPraia />
+              </Route>
+              <Route exact path="/grafico-quiosque">
+                <GraphQuiosque />
               </Route>
             </Switch>
           </OwnProvider>
