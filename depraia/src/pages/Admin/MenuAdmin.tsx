@@ -17,6 +17,9 @@ export default function MenuAdmin() {
         <Link to={"/cadastro-agenda"} className="container--left__admin">
           Cadastro de Agenda
         </Link>
+        <Link to={"/cadastro-ambulante"} className="container--left__admin">
+          Cadastro de Ambulante
+        </Link>
       </div>
     </>
   );

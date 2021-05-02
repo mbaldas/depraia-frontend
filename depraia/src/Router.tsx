@@ -23,6 +23,7 @@ import GraphQuiosque from "./pages/Graphs/GraphQuiosque";
 import MeusProdutos from "./pages/MeusProdutos/MeusProdutos";
 import CadastrarProdutos from "./pages/MeusProdutos/CadastrarProdutos";
 import GraphAmbulante from "./pages/Graphs/GraphAmbulante";
+import CadastroAmbulante from "./pages/Admin/CadastroAmbulante";
 
 export default () => {
   const theme = createMuiTheme({
@@ -67,6 +68,9 @@ export default () => {
               </Route>
               <Route exact path="/cadastro-agenda">
                 <CadastroAgenda />
+              </Route>
+              <Route exact path="/cadastro-ambulante">
+                <CadastroAmbulante />
               </Route>
               <Route exact path="/admin">
                 <MainPageAdmin />
