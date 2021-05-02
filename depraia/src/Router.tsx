@@ -17,14 +17,11 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import MenuMinhasReservas from "./pages/MinhasReservas/MenuMinhasReservas";
 import Historico from "./pages/MinhasReservas/Historico";
 import ProximasReservas from "./pages/MinhasReservas/ProximasReservas";
-<<<<<<< HEAD
 import GraphPraia from "./pages/Graphs/GraphPraia";
 import MainPageGraphs from "./pages/Graphs/MainPageGraphs";
 import GraphQuiosque from "./pages/Graphs/GraphQuiosque";
-=======
 import MeusProdutos from "./pages/MeusProdutos/MeusProdutos";
 import CadastrarProdutos from "./pages/MeusProdutos/CadastrarProdutos";
->>>>>>> 03ce496f98e5c54325704d3ca1f4fba8142742e5
 
 export default () => {
   const theme = createMuiTheme({

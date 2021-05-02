@@ -2,34 +2,35 @@ import "./index.scss";
 import MenuMinhasReservas from "./MenuMinhasReservas";
 import NavBar from "../../components/NavBar/NavBar";
 import React, { useEffect, useState } from "react";
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
+import { makeStyles } from "@material-ui/core/styles";
+import Paper from "@material-ui/core/Paper";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TablePagination from "@material-ui/core/TablePagination";
+import TableRow from "@material-ui/core/TableRow";
 import PraiaService from "../../service/PraiaService";
+import { useLocalStorage } from "../../hooks/localStorage";
 
 interface Column {
-  id: 'praia' | 'data' | 'vagas';
+  id: "praia" | "data" | "vagas";
   label: string;
   minWidth?: number;
-  align?: 'right';
+  align?: "right";
   format?: (value: number) => string;
 }
 
 const columns: Column[] = [
-  { id: 'praia', label: 'Praia', minWidth: 170 },
-  { id: 'data', label: 'Data', minWidth: 100 },
+  { id: "praia", label: "Praia", minWidth: 170 },
+  { id: "data", label: "Data", minWidth: 100 },
   {
-    id: 'vagas',
-    label: 'Vagas',
+    id: "vagas",
+    label: "Vagas",
     minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('en-US')
+    align: "right",
+    format: (value: number) => value.toLocaleString("en-US")
   }
 ];
 
@@ -39,23 +40,23 @@ interface Data {
   vagas: number;
 }
 
-function createData(praia: string, data: string,vagas: number): Data {
-  return { praia, data, vagas};
+function createData(praia: string, data: string, vagas: number): Data {
+  return { praia, data, vagas };
 }
 
 const rows = [
-  createData('Teste', 'Teste', 1),
-  createData('Teste', 'Teste', 2),
-  createData('Teste', 'Teste', 3),
+  createData("Teste", "Teste", 1),
+  createData("Teste", "Teste", 2),
+  createData("Teste", "Teste", 3)
 ];
 
 const useStyles = makeStyles({
   root: {
-    width: '100%',
+    width: "100%"
   },
   container: {
-    maxHeight: 440,
-  },
+    maxHeight: 440
+  }
 });
 
 export default function Historico() {
@@ -63,12 +64,15 @@ export default function Historico() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [agendas, setAgendas] = useState<any[]>([]);
+  const [actualUser, setActualUser] = useLocalStorage("name", "");
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
 
-  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
@@ -77,81 +81,100 @@ export default function Historico() {
     async function fetchPraias() {
       const response = await PraiaService.getAll();
       var a: any[] = [];
-      response.map( (response : any) => {
-      const praia = response.agendas.map((agenda: { data: any; vagas: any; }) => ({
-      praia: response.nome,
-      data: agenda.data,
-      vagas: agenda.vagas
-      })).filter((agenda: { data: string; }) => (new Date(agenda.data)) < new Date())
-      
-    praia.map((agenda : any) => {
-      a.push(agenda)
-    })
- 
-    setAgendas(a);
-    })
+      response.map((response: any) => {
+        const praia = response.agendas
+          .map((agenda: { data: any; vagas: any }) => ({
+            praia: response.nome,
+            data: agenda.data,
+            vagas: agenda.vagas
+          }))
+          .filter(
+            (agenda: { data: string }) => new Date(agenda.data) < new Date()
+          );
+
+        praia.map((agenda: any) => {
+          a.push(agenda);
+        });
+
+        setAgendas(a);
+      });
     }
     fetchPraias();
   }, []);
-
 
   return (
     <>
       <NavBar />
       <div className="container--reservas">
         <MenuMinhasReservas />
-          <div className="right--reservas">
-            <div className="container--right__reservas">
-              <h1 className="font--black"  style={{marginBottom:"50px"}}>Histórico</h1>
-                <Paper className={classes.root}>
-                  <TableContainer className={classes.container}>
-                    <Table stickyHeader aria-label="sticky table">
-                      <TableHead>
-                        <TableRow>
-                          {columns.map((column) => (
-                            <TableCell
-                              key={column.id}
-                              align={column.align}
-                              style={{ minWidth: column.minWidth }}
-                            >
-                              {column.label}
-                            </TableCell>
-                          ))}
-                        </TableRow>
-                      </TableHead>
-                      <TableBody>
-                      {agendas.length > 0 && (  
-                        agendas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+        <div className="right--reservas">
+          <div className="container--right__reservas">
+            <h1 className="font--black" style={{ marginBottom: "50px" }}>
+              Histórico
+            </h1>
+            <Paper className={classes.root}>
+              <TableContainer className={classes.container}>
+                <Table stickyHeader aria-label="sticky table">
+                  <TableHead>
+                    <TableRow>
+                      {columns.map((column) => (
+                        <TableCell
+                          key={column.id}
+                          align={column.align}
+                          style={{ minWidth: column.minWidth }}
+                        >
+                          {column.label}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {agendas.length > 0 &&
+                      agendas
+                        .slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage
+                        )
+                        .map((row) => {
                           return (
-                            <TableRow hover role="checkbox" tabIndex={-1} key={row.data}>
+                            <TableRow
+                              hover
+                              role="checkbox"
+                              tabIndex={-1}
+                              key={row.data}
+                            >
                               {columns.map((column) => {
                                 const value = row[column.id];
                                 return (
-                                  <TableCell key={column.id} align={column.align}>
-                                    {column.format && typeof value === 'number' ? column.format(value) : value}
+                                  <TableCell
+                                    key={column.id}
+                                    align={column.align}
+                                  >
+                                    {column.format && typeof value === "number"
+                                      ? column.format(value)
+                                      : value}
                                   </TableCell>
                                 );
                               })}
                             </TableRow>
                           );
-                        })
-                        )}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <TablePagination
-                    rowsPerPageOptions={[10, 25, 100]}
-                    component="div"
-                    count={agendas.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                    style={{marginBottom:"50px"}}
-                  />
-              </Paper>
-            </div>
+                        })}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 100]}
+                component="div"
+                count={agendas.length}
+                rowsPerPage={rowsPerPage}
+                page={page}
+                onChangePage={handleChangePage}
+                onChangeRowsPerPage={handleChangeRowsPerPage}
+                style={{ marginBottom: "50px" }}
+              />
+            </Paper>
           </div>
+        </div>
       </div>
     </>
   );
