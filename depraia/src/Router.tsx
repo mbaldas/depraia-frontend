@@ -18,6 +18,8 @@ import AboutUs from "./pages/AboutUs/AboutUs";
 import MenuMinhasReservas from "./pages/MinhasReservas/MenuMinhasReservas";
 import Historico from "./pages/MinhasReservas/Historico";
 import ProximasReservas from "./pages/MinhasReservas/ProximasReservas";
+import MeusProdutos from "./pages/MeusProdutos/MeusProdutos";
+import CadastrarProdutos from "./pages/MeusProdutos/CadastrarProdutos";
 
 export default () => {
   const theme = createMuiTheme({
@@ -71,6 +73,12 @@ export default () => {
               </Route>
               <Route exact path="/proximas-reservas">
                 <ProximasReservas />
+              </Route>
+              <Route exact path="/meus-produtos">
+                <MeusProdutos />
+              </Route>
+              <Route exact path="/cadastro-produtos-ambulante">
+                <CadastrarProdutos />
               </Route>
               <Route exact path="/about-us">
                 <AboutUs />

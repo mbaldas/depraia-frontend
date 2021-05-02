@@ -1,5 +1,4 @@
 import "./index.scss";
-import MenuMinhasReservas from "./MenuMinhasReservas";
 import NavBar from "../../components/NavBar/NavBar";
 import React, { useEffect, useState } from "react";
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,10 +10,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
-import PraiaService from "../../service/PraiaService";
+import MenuMeusProdutos from "./MenuMeusProdutos";
+import ProdutoService from "../../service/ProdutoService";
+import { Produto } from "../../model/Produto";
 
 interface Column {
-  id: 'praia' | 'data' | 'vagas';
+  id: 'nome' | 'descricao' | 'preco';
   label: string;
   minWidth?: number;
   align?: 'right';
@@ -22,31 +23,15 @@ interface Column {
 }
 
 const columns: Column[] = [
-  { id: 'praia', label: 'Praia', minWidth: 170 },
-  { id: 'data', label: 'Data', minWidth: 100 },
+  { id: 'nome', label: 'Nome', minWidth: 170 },
+  { id: 'descricao', label: 'Descrição', minWidth: 100 },
   {
-    id: 'vagas',
-    label: 'Vagas',
+    id: 'preco',
+    label: 'Preço',
     minWidth: 170,
     align: 'right',
     format: (value: number) => value.toLocaleString('en-US')
   }
-];
-
-interface Data {
-  praia: string;
-  data: string;
-  vagas: number;
-}
-
-function createData(praia: string, data: string,vagas: number): Data {
-  return { praia, data, vagas};
-}
-
-const rows = [
-  createData('Teste', 'Teste', 1),
-  createData('Teste', 'Teste', 2),
-  createData('Teste', 'Teste', 3),
 ];
 
 const useStyles = makeStyles({
@@ -58,11 +43,11 @@ const useStyles = makeStyles({
   },
 });
 
-export default function Historico() {
+export default function MeusProdutos() {
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [agendas, setAgendas] = useState<any[]>([]);
+  const [produtos, setProdutos] = useState<Produto[]>([]);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -74,35 +59,24 @@ export default function Historico() {
   };
 
   useEffect(() => {
-    async function fetchPraias() {
-      const response = await PraiaService.getAll();
-      var a: any[] = [];
-      response.map( (response : any) => {
-      const praia = response.agendas.map((agenda: { data: any; vagas: any; }) => ({
-      praia: response.nome,
-      data: agenda.data,
-      vagas: agenda.vagas
-      })).filter((agenda: { data: string; }) => (new Date(agenda.data)) < new Date())
-      
-    praia.map((agenda : any) => {
-      a.push(agenda)
-    })
- 
-    setAgendas(a);
-    })
+    async function fetchProdutos() {
+      const response = await ProdutoService.getAll();
+      setProdutos(response);
     }
-    fetchPraias();
+    fetchProdutos();
   }, []);
+
+
 
 
   return (
     <>
       <NavBar />
-      <div className="container--reservas">
-        <MenuMinhasReservas />
-          <div className="right--reservas">
-            <div className="container--right__reservas">
-              <h1 className="font--black"  style={{marginBottom:"50px"}}>Histórico</h1>
+      <div className="container--produtos">
+        <MenuMeusProdutos />
+          <div className="right--produtos">
+            <div className="container--right__produtos">
+              <h1 className="font--black"  style={{marginBottom:"50px"}}>Meus Produtos</h1>
                 <Paper className={classes.root}>
                   <TableContainer className={classes.container}>
                     <Table stickyHeader aria-label="sticky table">
@@ -120,10 +94,9 @@ export default function Historico() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                      {agendas.length > 0 && (  
-                        agendas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        {produtos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                           return (
-                            <TableRow hover role="checkbox" tabIndex={-1} key={row.data}>
+                            <TableRow hover role="checkbox" tabIndex={-1} key={row.descricao}>
                               {columns.map((column) => {
                                 const value = row[column.id];
                                 return (
@@ -134,15 +107,14 @@ export default function Historico() {
                               })}
                             </TableRow>
                           );
-                        })
-                        )}
+                        })}
                       </TableBody>
                     </Table>
                   </TableContainer>
                   <TablePagination
                     rowsPerPageOptions={[10, 25, 100]}
                     component="div"
-                    count={agendas.length}
+                    count={produtos.length}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onChangePage={handleChangePage}

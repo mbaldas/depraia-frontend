@@ -1,12 +1,13 @@
-import React from 'react';
 import "./index.scss";
-import TextField from "@material-ui/core/TextField";
-import { Button } from "@material-ui/core";
-import MenuAdmin from "./MenuAdmin";
-import NavBar from "../../components/NavBar/NavBar";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import NewProduto from "../../model/NewProduto";
+import NavBar from "../../components/NavBar/NavBar";
+import { Button, makeStyles, TextField } from "@material-ui/core";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import ProdutoService from "../../service/ProdutoService";
+import AmbulanteService from "../../service/AmbulanteService";
+import { Produto } from "../../model/Produto";
+import MenuMeusProdutos from "./MenuMeusProdutos";
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
@@ -14,7 +15,9 @@ function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
-export default function CadastroProduto() {
+export default function CadastrarProdutos() {
+  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [selectedProduto, setSelectedProduto] = useState<Produto | null>();
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = React.useState("");
   const [mensagem, setMensagem] = React.useState("");
@@ -29,20 +32,13 @@ export default function CadastroProduto() {
 
   const formik = useFormik({
     initialValues: {
-      nome: "",
-      descricao: "",
-      preco: 0,
+      nome: ""
     },
     onSubmit: async (values) => {
       console.log(values);
-      const produto = new NewProduto(
-        values.nome,
-        values.descricao,
-        values.preco
-      );
-      const retorno = await  ProdutoService.createProduto(produto);
-
-      if(retorno == "Saved") {
+      /*const retorno = await AmbulanteService.addProduto(produtos[0].id);
+      console.log(retorno);
+      if(retorno.status == 200) {
         setOpen(true);
         setMensagem("Cadastro realizado com sucesso!");
         setStatus("success");        
@@ -51,52 +47,48 @@ export default function CadastroProduto() {
         setOpen(true);
         setMensagem("Erro no cadastro, tente novamente!");
         setStatus("error");
-      }
-
+      }*/
     }
   
   });
+
+  useEffect(() => {
+    async function fetchProdutos() {
+      const response = await ProdutoService.getAll();
+      setProdutos(response);
+    }
+    fetchProdutos();
+  }, []);
 
 
   return (
     <>
       <NavBar />
       <div className="container--admin">
-        <MenuAdmin />
+        <MenuMeusProdutos />
           <div className="right--admin">
             <div className="container--right__admin">
-              <h1 className="font--black">Cadastro de Produto</h1>
+              <h1 className="font--black">Cadastrar Produtos</h1>
               <form onSubmit={formik.handleSubmit}>
-              <div className="form-group">
-              <TextField
-                required
-                id="nome"
-                name="nome"
-                label="Nome"
-                placeholder="Ex. Empada"
-                onChange={formik.handleChange}
-              />
-              </div>
-              <div className="form-group">
-              <TextField
-                required
-                id="descricao"
-                name="descricao"
-                label="Descrição"
-                value={formik.values.descricao}
-                onChange={formik.handleChange}
-              />
-            </div>
-            <div className="form-group">
-              <TextField
-                required
-                id="preco"
-                name="preco"
-                label="Preço"
-                value={formik.values.preco}
-                onChange={formik.handleChange}
-              />
-            </div>
+              <Autocomplete
+                  id="produto"
+                  onChange={(e, value) => {
+                    formik.setFieldValue("produto", value);
+                    setSelectedProduto(value);
+                  }}
+                  options={produtos}
+                  getOptionLabel={(option: any) => option.nome}
+                  style={{ width: 300 }}
+                  renderInput={(params: any) => (
+                    <TextField
+                      required
+                      {...params}
+                      name="produto"
+                      label="Selecione seu Produto"
+                      variant="outlined"
+                    />
+                  )}
+                />
                 <Button
                   variant="contained"
                   className="button--cadastro"
@@ -116,3 +108,4 @@ export default function CadastroProduto() {
     </>
   );
 }
+
