@@ -41,7 +41,7 @@ export default ({ children }: React.Props<any>) => {
     LoginUser: async (user: any) => {
       const loggedUser = await UserService.loginUser(user);
       setActualUser(loggedUser);
-      history.push("/");
+      history.push("/home");
     }
   };
 
