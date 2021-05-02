@@ -1,15 +1,21 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUmbrellaBeach } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import "./index.scss";
 import { MenuItems } from "./MenuItems";
+import { useLocalStorage } from "../../hooks/localStorage";
 
 const NavBar: React.FC = () => {
+  const history = useHistory();
+  const [actualUser, setActualUser] = useLocalStorage("name", "");
   const logoutFunc = () => {
     window.localStorage.clear();
+    history.push("/signin");
   };
+
+  console.log(actualUser);
 
   return (
     <nav className="navbar">
@@ -19,6 +25,8 @@ const NavBar: React.FC = () => {
 
       <ul className={"navbar__menu"}>
         {MenuItems.map((item, index) => {
+          if (actualUser.admin === false && item.title === "Admin")
+            return <> </>;
           return (
             <li key={index}>
               <Link

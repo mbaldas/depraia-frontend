@@ -38,8 +38,11 @@ export default () => {
         <Router>
           <OwnProvider>
             <Switch>
-              <Route exact path="/">
+              <Route exact path="/home">
                 <MainPage />
+              </Route>
+              <Route exact path="/">
+                <SignIn />
               </Route>
               <Route exact path="/signin">
                 <SignIn />
