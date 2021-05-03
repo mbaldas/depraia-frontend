@@ -11,7 +11,8 @@ export interface AmbulanteAsUser {
   email: string,
   endereco: Endereco,
   nome: string,
-  tipo: number
+  tipo: number,
+  senha: string
 }
 
 export interface Ambulante {

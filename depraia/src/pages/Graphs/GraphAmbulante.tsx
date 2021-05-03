@@ -59,6 +59,7 @@ const GraphAmbulante: React.FC = () => {
       var expectedObj: any[] = [];
 
       praias.map((response: any) => {
+        console.log(praias);
         const praia = response.ambulantes.map(
           (ambulante: { user: any; produto: any[] }) => ({
             praia: response.nome,

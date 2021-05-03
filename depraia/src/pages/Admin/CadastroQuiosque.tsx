@@ -36,7 +36,7 @@ export default function CadastroQuiosque() {
       nome: ""
     },
     onSubmit: async (values) => {
-      const quiosque = new NewQuiosque(values.nome, praias[0]);
+      const quiosque = new NewQuiosque(values.nome, selectedPraia!);
       const retorno = await QuiosqueService.createQuiosque(quiosque);
       if (retorno.status == 200) {
         setOpen(true);

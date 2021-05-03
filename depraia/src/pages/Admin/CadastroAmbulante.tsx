@@ -44,7 +44,8 @@ export default function CadastroAmbulante() {
       cidade: "",
       cep: "",
       tipo: 2,
-      praia: ""
+      praia: "",
+      senha: ""
     },
     onSubmit: async (values) => {
       const endereco = new Endereco(
@@ -61,7 +62,8 @@ export default function CadastroAmbulante() {
         email: values.email,
         endereco: endereco,
         nome: values.nome,
-        tipo: 3
+        tipo: 3,
+        senha: values.senha
       };
       const ambulante = new NewAmbulante(ambulanteAsUser, praia);
 
@@ -184,6 +186,17 @@ export default function CadastroAmbulante() {
                   label="CEP"
                   placeholder="Ex. 123456778"
                   value={formik.values.cep}
+                  onChange={formik.handleChange}
+                />
+              </div>
+              <div className="form-group">
+                <TextField
+                  id="senha"
+                  name="senha"
+                  label="Senha"
+                  type="password"
+                  autoComplete="current-password"
+                  value={formik.values.senha}
                   onChange={formik.handleChange}
                 />
               </div>

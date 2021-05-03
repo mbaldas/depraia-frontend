@@ -46,7 +46,8 @@ const GraphPraia: React.FC = () => {
       {
         name: "Pessoas",
         data: selectedPraia?.agendas.map((p: any) => {
-          return p.usuarios.length;
+          if (p.usuarios) return p.usuarios.length;
+          return 0;
         })
       }
     ]
