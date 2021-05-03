@@ -13,6 +13,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import PraiaService from "../../service/PraiaService";
 import { useLocalStorage } from "../../hooks/localStorage";
+import User from "../../model/User";
 
 interface Column {
   id: "praia" | "data" | "vagas";
@@ -66,19 +67,25 @@ export default function ProximasReservas() {
       var a: any[] = [];
       response.map((response: any) => {
         const praia = response.agendas
-          .map((agenda: { data: any; vagas: any }) => ({
+          .map((agenda: { data: any; vagas: any; usuarios: [] }) => ({
             praia: response.nome,
             data: agenda.data,
-            vagas: agenda.vagas
+            vagas: agenda.vagas,
+            usuarios: agenda.usuarios
           }))
           .filter(
             (agenda: { data: string }) => new Date(agenda.data) > new Date()
           );
 
-        praia.map((agenda: any) => {
-          a.push(agenda);
-        });
-
+          praia.map((agenda: any) => {
+           console.log(agenda.usuarios)
+           for(var x=0; x< agenda.usuarios.length; x++){
+             if(agenda.usuarios[x].id ==actualUser.id  ) {
+               a.push(agenda)
+             }
+           }
+          })
+       
         setAgendas(a);
       });
     }

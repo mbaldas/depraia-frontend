@@ -2,7 +2,7 @@ import "./index.scss";
 import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import NavBar from "../../components/NavBar/NavBar";
-import { Button, makeStyles, TextField } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import PraiaService from "../../service/PraiaService";
 import QuiosqueService from "../../service/QuiosqueService";

@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Praia } from "../model/Praia";
-import User from "../model/User";
 import NewAgenda from "../model/NewAgenda";
 
 export default {
