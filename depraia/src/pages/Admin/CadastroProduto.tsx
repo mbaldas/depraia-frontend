@@ -34,7 +34,6 @@ export default function CadastroProduto() {
       preco: 0
     },
     onSubmit: async (values) => {
-      console.log(values);
       const produto = new NewProduto(
         values.nome,
         values.descricao,

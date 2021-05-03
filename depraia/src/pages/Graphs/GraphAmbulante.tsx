@@ -59,7 +59,6 @@ const GraphAmbulante: React.FC = () => {
       var expectedObj: any[] = [];
 
       praias.map((response: any) => {
-        debugger;
         const praia = response.ambulantes.map(
           (ambulante: { user: any; produto: any[] }) => ({
             praia: response.nome,
@@ -86,7 +85,7 @@ const GraphAmbulante: React.FC = () => {
         <MenuGraphs />
         <div className="right--admin">
           <div className="container--right__admin">
-            <h1 className="font--black">Quiosques por praia</h1>
+            <h1 className="font--black">Ambulantes nas Praias</h1>
             <Paper className={classes.root}>
               <TableContainer className={classes.container}>
                 <Table stickyHeader aria-label="sticky table">

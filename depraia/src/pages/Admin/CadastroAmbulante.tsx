@@ -67,7 +67,7 @@ export default function CadastroAmbulante() {
 
       const retorno = await AmbulanteService.createAmbulante(ambulante);
 
-      if (retorno == "Saved") {
+      if (retorno !== undefined) {
         setOpen(true);
         setMensagem("Cadastro realizado com sucesso!");
         setStatus("success");
@@ -81,7 +81,6 @@ export default function CadastroAmbulante() {
 
   useEffect(() => {
     async function fetchPraias() {
-      debugger;
       const response = await PraiaService.getAll();
       setPraias(response);
     }

@@ -8,8 +8,8 @@ import ProdutoService from "../../service/ProdutoService";
 import AmbulanteService from "../../service/AmbulanteService";
 import { Produto } from "../../model/Produto";
 import MenuMeusProdutos from "./MenuMeusProdutos";
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -23,7 +23,7 @@ export default function CadastrarProdutos() {
   const [mensagem, setMensagem] = React.useState("");
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
@@ -35,21 +35,18 @@ export default function CadastrarProdutos() {
       nome: ""
     },
     onSubmit: async (values) => {
-      console.log(values);
       /*const retorno = await AmbulanteService.addProduto(produtos[0].id);
-      console.log(retorno);
       if(retorno.status == 200) {
         setOpen(true);
         setMensagem("Cadastro realizado com sucesso!");
-        setStatus("success");        
-      } 
+        setStatus("success");
+      }
       else {
         setOpen(true);
         setMensagem("Erro no cadastro, tente novamente!");
         setStatus("error");
       }*/
     }
-  
   });
 
   useEffect(() => {
@@ -60,52 +57,62 @@ export default function CadastrarProdutos() {
     fetchProdutos();
   }, []);
 
-
   return (
     <>
       <NavBar />
       <div className="container--admin">
         <MenuMeusProdutos />
-          <div className="right--admin">
-            <div className="container--right__admin">
-              <h1 className="font--black">Cadastrar Produtos</h1>
-              <form onSubmit={formik.handleSubmit}>
+        <div className="right--admin">
+          <div className="container--right__admin">
+            <h1 className="font--black">Cadastrar Produtos</h1>
+            <form onSubmit={formik.handleSubmit}>
               <Autocomplete
-                  id="produto"
-                  onChange={(e, value) => {
-                    formik.setFieldValue("produto", value);
-                    setSelectedProduto(value);
-                  }}
-                  options={produtos}
-                  getOptionLabel={(option: any) => option.nome}
-                  style={{ width: 300 }}
-                  renderInput={(params: any) => (
-                    <TextField
-                      required
-                      {...params}
-                      name="produto"
-                      label="Selecione seu Produto"
-                      variant="outlined"
-                    />
-                  )}
-                />
-                <Button
-                  variant="contained"
-                  className="button--cadastro"
-                  type="submit"
-                >
-                  <span className="button--text">CADASTRAR</span>
-                </Button>
-              </form>
-            </div>
+                id="produto"
+                onChange={(e, value) => {
+                  formik.setFieldValue("produto", value);
+                  setSelectedProduto(value);
+                }}
+                options={produtos}
+                getOptionLabel={(option: any) => option.nome}
+                style={{ width: 300 }}
+                renderInput={(params: any) => (
+                  <TextField
+                    required
+                    {...params}
+                    name="produto"
+                    label="Selecione seu Produto"
+                    variant="outlined"
+                  />
+                )}
+              />
+              <Button
+                variant="contained"
+                className="button--cadastro"
+                type="submit"
+              >
+                <span className="button--text">CADASTRAR</span>
+              </Button>
+            </form>
           </div>
-          <Snackbar open={open} autoHideDuration={4000} onClose={handleClose}  anchorOrigin={{vertical: 'top', horizontal: 'right'}}>
-            <Alert onClose={handleClose} style={status == "success" ? {backgroundColor:"green"} : {backgroundColor:"red"}}>
-              {mensagem}
-            </Alert>
-          </Snackbar>
+        </div>
+        <Snackbar
+          open={open}
+          autoHideDuration={4000}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <Alert
+            onClose={handleClose}
+            style={
+              status == "success"
+                ? { backgroundColor: "green" }
+                : { backgroundColor: "red" }
+            }
+          >
+            {mensagem}
+          </Alert>
+        </Snackbar>
       </div>
     </>
   );
 }
-
