@@ -2,6 +2,7 @@ import "./index.scss";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import MenuAdmin from "./MenuAdmin";
 import NavBar from "../../components/NavBar/NavBar";
+import { useLocalStorage } from "../../hooks/localStorage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -15,6 +16,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export default function MainPageAdmin() {
+  const [actualUser, setActualUser] = useLocalStorage("name", "");
   const classes = useStyles();
 
   return (
@@ -25,7 +27,7 @@ export default function MainPageAdmin() {
         <form className={classes.root} noValidate autoComplete="off">
           <div className="right--admin">
             <div className="container--right__admin">
-              <h1 className="font--black">Olá, nomeDoUsuario!</h1>
+              <h1 className="font--black">Olá, {actualUser.nome}!</h1>
               <h3 className="font--black">
                 Navegue pelo menu ao lado para cadastrar praias, quiosques, produtos e agendas
               </h3>

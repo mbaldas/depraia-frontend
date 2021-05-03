@@ -1,8 +1,7 @@
 import "./index.scss";
-import React from "react";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import NavBar from "../../components/NavBar/NavBar";
-import { Container, Grid, Paper } from "@material-ui/core";
+import { Container} from "@material-ui/core";
 import img from "../../assets/empresarios.png";
 
 

@@ -3,11 +3,11 @@ import NewAmbulante from "../model/Ambulante";
 
 // eslint-disable-next-line import/no-anonymous-default-export
 export default {
-  async addProduto(produtoId: number) {
+  async addProduto(produtoId: number, id: number) {
     axios.defaults.headers = {
       'Content-Type': 'application/json'
     };
-    const response = await axios.post(`https://depraia-api.herokuapp.com/adicionar/produto/`, JSON.stringify(produtoId))
+    const response = await axios.post(`https://depraia-api.herokuapp.com/adicionar/produto/${id}`, JSON.stringify(produtoId))
     return response.data;
   },
   async createAmbulante(ambulante: NewAmbulante) {

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { Produto } from "../model/Produto";
 import NewProduto from "../model/NewProduto";
 
 // eslint-disable-next-line import/no-anonymous-default-export

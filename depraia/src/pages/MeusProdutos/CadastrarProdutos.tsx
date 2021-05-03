@@ -10,6 +10,10 @@ import { Produto } from "../../model/Produto";
 import MenuMeusProdutos from "./MenuMeusProdutos";
 import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { useLocalStorage } from "../../hooks/localStorage";
+import Snackbar from "@material-ui/core/Snackbar";
+import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { useLocalStorage } from "../../hooks/localStorage";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -21,6 +25,7 @@ export default function CadastrarProdutos() {
   const [open, setOpen] = React.useState(false);
   const [status, setStatus] = React.useState("");
   const [mensagem, setMensagem] = React.useState("");
+  const [actualUser, setActualUser] = useLocalStorage("name", "");
 
   const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
@@ -35,17 +40,21 @@ export default function CadastrarProdutos() {
       nome: ""
     },
     onSubmit: async (values) => {
-      /*const retorno = await AmbulanteService.addProduto(produtos[0].id);
-      if(retorno.status == 200) {
+      console.log(values);
+      const retorno = await AmbulanteService.addProduto(
+        produtos[0].id,
+        actualUser.id
+      );
+      console.log(retorno);
+      if (retorno.status == 200) {
         setOpen(true);
         setMensagem("Cadastro realizado com sucesso!");
         setStatus("success");
-      }
-      else {
+      } else {
         setOpen(true);
         setMensagem("Erro no cadastro, tente novamente!");
         setStatus("error");
-      }*/
+      }
     }
   });
 
