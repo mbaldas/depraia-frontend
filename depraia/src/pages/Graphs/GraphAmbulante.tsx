@@ -63,7 +63,7 @@ const GraphAmbulante: React.FC = () => {
           (ambulante: { user: any; produtos: any }) => ({
             praia: response.nome,
             ambulante: ambulante.user.nome,
-            produtos: ambulante.produtos.map((p: any) => {
+            produto: ambulante.produtos.map((p: any) => {
               return p.nome;
             })
           })
