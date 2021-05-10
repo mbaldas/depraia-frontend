@@ -24,14 +24,6 @@ const GraphPraia: React.FC = () => {
   const [praias, setPraias] = useState<Praia[]>([]);
   const [selectedPraia, setSelectedPraia] = useState<any>();
   const classes = useStyles();
-  const [dateArray, setDateArray] = useState<string[]>([]);
-
-  useEffect(() => {
-    selectedPraia?.agendas.map((p: any) => {
-      const date = Utils.convertDateToDayAndMonth(p.data);
-      dateArray.push(date);
-    });
-  }, [selectedPraia]);
 
   const graphOptions = {
     options: {
@@ -39,7 +31,10 @@ const GraphPraia: React.FC = () => {
         id: "praia"
       },
       xaxis: {
-        categories: dateArray
+        categories: selectedPraia?.agendas.map((p: any) => {
+          if (p.data) return p.data;
+          return 0;
+        })
       }
     },
     series: [
