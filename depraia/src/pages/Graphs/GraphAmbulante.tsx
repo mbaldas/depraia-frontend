@@ -71,7 +71,7 @@ const GraphAmbulante: React.FC = () => {
                 ? ambulante.produto.map((p) => {
                     return p.nome;
                   })
-                : ` O ${ambulante.user.nome} não tem produtos cadastros`
+                : ` O ${ambulante.user.nome} não tem produtos cadastrados`
           })
         );
         praia.map((obj: any) => {
