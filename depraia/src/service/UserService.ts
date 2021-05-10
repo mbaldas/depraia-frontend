@@ -9,7 +9,7 @@ export default {
       'Content-Type': 'application/json'
     };
     const response = await axios.post(`https://depraia-api.herokuapp.com/cadastro`, JSON.stringify(user))
-    return response.data;
+    return response;
   },
   async loginUser(user: any) {
     axios.defaults.headers = {
