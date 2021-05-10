@@ -53,11 +53,13 @@ export default function CadastroAgenda() {
       vagas: 0
     },
     onSubmit: async (values) => {
+   
       const agenda = new NewAgenda(
         moment(values.data).format("DD/MM/YYYY"),
-        praias[0],
+        selectedPraia!,
         values.vagas
       );
+         console.log(agenda)
       const retorno = await AgendaService.createAgenda(agenda);
       if (retorno.status == 200) {
         setOpen(true);
