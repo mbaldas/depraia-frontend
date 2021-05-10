@@ -138,7 +138,6 @@ export default function SignUp() {
               >
                 <MenuItem value={1}>Banhista</MenuItem>
                 <MenuItem value={2}>Esportista</MenuItem>
-                <MenuItem value={3}>Ambulante</MenuItem>
               </Select>
             </div>
             <Button
