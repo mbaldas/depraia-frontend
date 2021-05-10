@@ -43,7 +43,7 @@ export default function CadastroAmbulante() {
       bairro: "",
       cidade: "",
       cep: "",
-      tipo: 2,
+      tipoUsuario: 3,
       praia: "",
       senha: ""
     },
@@ -62,7 +62,7 @@ export default function CadastroAmbulante() {
         email: values.email,
         endereco: endereco,
         nome: values.nome,
-        tipo: 3,
+        tipoUsuario: 3,
         senha: values.senha
       };
       const ambulante = new NewAmbulante(ambulanteAsUser, praia);

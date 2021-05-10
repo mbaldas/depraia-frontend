@@ -26,5 +26,9 @@ export default {
     };
     const response = await axios.post(`https://depraia-api.herokuapp.com/agenda`, JSON.stringify(agenda))
     return response;
+  },
+  async getReservasPorUsuario (id: number) {
+    const response = await axios.get(`https://depraia-api.herokuapp.com/agendasUsuario/${id}`)
+    return response.data;
   }
 };

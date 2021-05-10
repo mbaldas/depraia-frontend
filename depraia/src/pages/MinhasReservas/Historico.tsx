@@ -14,6 +14,7 @@ import TableRow from "@material-ui/core/TableRow";
 import PraiaService from "../../service/PraiaService";
 import { useLocalStorage } from "../../hooks/localStorage";
 import User from "../../model/User";
+import AgendaService from "../../service/AgendaService";
 
 interface Column {
   id: "praia" | "data" | "vagas";
@@ -61,35 +62,21 @@ export default function Historico() {
     setPage(0);
   };
 
+  
   useEffect(() => {
-    async function fetchPraias() {
-      const response = await PraiaService.getAll();
-      var a: any[] = [];
-      response.map((response: any) => {
-        const praia = response.agendas
-          .map((agenda: { data: any; vagas: any, usuarios: [] }) => ({
-            praia: response.nome,
-            data: agenda.data,
-            vagas: agenda.vagas,
-            usuarios: agenda.usuarios
-          }))
-          .filter(
-            (agenda: { data: string }) => new Date(agenda.data) < new Date()
-          );
-
-          praia.map((agenda: any) => {
-            console.log(agenda.usuarios)
-            for(var x=0; x< agenda.usuarios.length; x++){
-              if(agenda.usuarios[x].id ==actualUser.id  ) {
-                a.push(agenda)
-              }
-            }
-           })
-
+    async function fetchAgendas() {
+      const agenda = await AgendaService.getReservasPorUsuario(actualUser.id);
+      const a = agenda.map((agenda: any) => ({
+        praia: agenda.praia.nome,
+        data: agenda.data,
+        vagas: agenda.vagas,
+      }))
+      //.filter(
+       // (agenda: { data: string }) => new Date(agenda.data) < new Date())
         setAgendas(a);
-      });
+       
     }
-    fetchPraias();
+    fetchAgendas();
   }, []);
 
   return (

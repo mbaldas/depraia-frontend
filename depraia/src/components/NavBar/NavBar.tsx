@@ -23,10 +23,9 @@ const NavBar: React.FC = () => {
 
       <ul className={"navbar__menu"}>
         {MenuItems.map((item, index) => {
-          console.log(actualUser.tipoUsuario)
           if (actualUser.admin === false && item.title === "Admin") 
             return <> </>;
-          if (actualUser.tipoUsuario != null && actualUser.tipoUsuario !== 3 && item.title === "Meus Produtos")
+          if (actualUser.tipoUsuario !== 3 && item.title === "Meus Produtos")
             return <> </>;
   
           return (
