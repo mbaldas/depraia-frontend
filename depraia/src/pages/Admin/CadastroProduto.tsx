@@ -88,6 +88,7 @@ export default function CadastroProduto() {
                   id="preco"
                   name="preco"
                   label="Preço"
+                  type="number"
                   value={formik.values.preco}
                   onChange={formik.handleChange}
                 />

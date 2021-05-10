@@ -31,16 +31,25 @@ export default function CadastrarProdutos() {
 
     setOpen(false);
   };
+  interface IdProduto {
+    id: number;
+  }
+
+  function createIdProduto(id: number): IdProduto {
+    return { id};
+  }
 
   const formik = useFormik({
     initialValues: {
       nome: ""
     },
     onSubmit: async (values) => {
-      console.log(values);
+      console.log(values)
+      const idProduto  = createIdProduto(selectedProduto!.id);
+      const ambulanteId = await AmbulanteService.getAmbulanteByUserId(actualUser.id);
       const retorno = await AmbulanteService.addProduto(
-        produtos[0].id,
-        actualUser.id
+        idProduto,
+        ambulanteId.id
       );
       console.log(retorno);
       if (retorno.status == 200) {
@@ -62,6 +71,7 @@ export default function CadastrarProdutos() {
     }
     fetchProdutos();
   }, []);
+
 
   return (
     <>

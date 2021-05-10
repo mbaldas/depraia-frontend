@@ -13,6 +13,8 @@ import TableRow from '@material-ui/core/TableRow';
 import MenuMeusProdutos from "./MenuMeusProdutos";
 import ProdutoService from "../../service/ProdutoService";
 import { Produto } from "../../model/Produto";
+import { useLocalStorage } from "../../hooks/localStorage";
+import AmbulanteService from "../../service/AmbulanteService";
 
 interface Column {
   id: 'nome' | 'descricao' | 'preco';
@@ -29,8 +31,7 @@ const columns: Column[] = [
     id: 'preco',
     label: 'Preço',
     minWidth: 170,
-    align: 'right',
-    format: (value: number) => value.toLocaleString('en-US')
+    align: 'right'
   }
 ];
 
@@ -48,6 +49,8 @@ export default function MeusProdutos() {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [actualUser, setActualUser] = useLocalStorage("name", "");
+
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -60,8 +63,8 @@ export default function MeusProdutos() {
 
   useEffect(() => {
     async function fetchProdutos() {
-      const response = await ProdutoService.getAll();
-      setProdutos(response);
+      const response = await AmbulanteService.getAmbulanteByUserId(actualUser.id);
+      setProdutos(response.produtos);
     }
     fetchProdutos();
   }, []);
@@ -94,7 +97,8 @@ export default function MeusProdutos() {
                         </TableRow>
                       </TableHead>
                       <TableBody>
-                        {produtos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        {produtos.length > 0 && (
+                        produtos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                           return (
                             <TableRow hover role="checkbox" tabIndex={-1} key={row.descricao}>
                               {columns.map((column) => {
@@ -107,7 +111,7 @@ export default function MeusProdutos() {
                               })}
                             </TableRow>
                           );
-                        })}
+                        }))}
                       </TableBody>
                     </Table>
                   </TableContainer>
