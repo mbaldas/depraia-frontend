@@ -32,7 +32,7 @@ const GraphQuiosque: React.FC = () => {
     },
     series: [
       {
-        name: "Pessoas",
+        name: "Quiosques",
         data: praias.map((p) => p.quiosques.length)
       }
     ]
