@@ -18,7 +18,7 @@ export default {
         'Content-Type': 'application/json'
       };
       const response = await axios.put(`https://depraia-api.herokuapp.com/agenda/reservar`, JSON.stringify(obj))
-      return response.data;
+      return response;
   },
   async createAgenda(agenda: NewAgenda) {
     axios.defaults.headers = {
