@@ -58,15 +58,20 @@ const GraphAmbulante: React.FC = () => {
       const praias = await PraiaService.getAll();
       var expectedObj: any[] = [];
 
+      console.log(praias);
+
       praias.map((response: any) => {
         console.log(praias);
         const praia = response.ambulantes.map(
           (ambulante: { user: any; produto: any[] }) => ({
             praia: response.nome,
             ambulante: ambulante.user.nome,
-            produto: ambulante.produto.map((p) => {
-              return p.nome;
-            })
+            produto:
+              ambulante.produto !== undefined
+                ? ambulante.produto.map((p) => {
+                    return p.nome;
+                  })
+                : ` O ${ambulante.user.nome} não tem produtos cadastros`
           })
         );
         praia.map((obj: any) => {
