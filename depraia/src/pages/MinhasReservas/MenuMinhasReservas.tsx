@@ -6,11 +6,11 @@ export default function MenuMinhasReservas() {
     <>
       <div className="left--reservas">
         <Link to={"/proximas-reservas"} className="container--left__reservas">
-          Próximas Reservas
+          Minhas Reservas
         </Link>
-        <Link to={"/historico-reservas"} className="container--left__reservas">
+        {/* <Link to={"/historico-reservas"} className="container--left__reservas">
           Histórico
-        </Link>
+        </Link> */}
       </div>
     </>
   );

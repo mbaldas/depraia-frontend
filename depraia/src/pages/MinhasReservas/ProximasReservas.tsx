@@ -69,12 +69,11 @@ export default function ProximasReservas() {
       const a = agenda.map((agenda: any) => ({
         praia: agenda.praia.nome,
         data: agenda.data,
-        vagas: agenda.vagas,
-      }))
+        vagas: agenda.vagas
+      }));
       //.filter(
-       // (agenda: { data: string }) => (new Date(Date.parse(agenda.data)) > new Date()))
-        setAgendas(a);
-
+      // (agenda: { data: string }) => (new Date(Date.parse(agenda.data)) > new Date()))
+      setAgendas(a);
     }
     fetchAgendas();
   }, []);
@@ -87,7 +86,7 @@ export default function ProximasReservas() {
         <div className="right--reservas">
           <div className="container--right__reservas">
             <h1 className="font--black" style={{ marginBottom: "50px" }}>
-              Próximas Reservas
+              Minhas Reservas
             </h1>
             <Paper className={classes.root}>
               <TableContainer className={classes.container}>
